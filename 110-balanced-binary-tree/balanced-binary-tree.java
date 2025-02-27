@@ -27,6 +27,7 @@ class Solution {
         }
         int lh = checkHeight(root.left);
         if(lh == -1) return -1;
+        
         int rh = checkHeight(root.right);
         if(rh == -1)return -1;
 
