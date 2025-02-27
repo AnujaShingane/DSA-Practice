@@ -14,14 +14,14 @@
  * }
  */
 class Solution {
-    private int maxi = 0;
+    public int maxi = 0;
 
     public int diameterOfBinaryTree(TreeNode root) {
         height(root);
         return maxi;
     }
 
-    private int height(TreeNode root){
+    public int height(TreeNode root){
         if(root == null){
             return 0;
         }
