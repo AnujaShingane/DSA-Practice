@@ -21,14 +21,14 @@ class Solution {
         return maxi;
     }
 
-    private int height(TreeNode root) {
-        if (root == null) {
+    private int height(TreeNode root){
+        if(root == null){
             return 0;
         }
         int lh = height(root.left);
         int rh = height(root.right);
-        maxi = Math.max(maxi, lh + rh);
-        
-        return 1 + Math.max(lh, rh);
+        maxi = Math.max(maxi,lh+rh);
+
+        return (1+Math.max(lh,rh));
     }
 }
