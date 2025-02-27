@@ -27,8 +27,8 @@ class Solution {
         }
         int lh = height(root.left);
         int rh = height(root.right);
-        maxi = Math.max(maxi,lh+rh);
 
+        maxi = Math.max(maxi,lh+rh);
         return (1+Math.max(lh,rh));
     }
 }
