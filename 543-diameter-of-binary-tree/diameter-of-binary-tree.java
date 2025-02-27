@@ -14,7 +14,7 @@
  * }
  */
 class Solution {
-    public int maxi = 0;
+     int maxi = 0;
 
     public int diameterOfBinaryTree(TreeNode root) {
         height(root);
