@@ -47,45 +47,36 @@ class Solution {
     public void mergeArrays(int a[], int b[]) {
         int n = a.length;
         int m = b.length;
-        // Declare a 3rd array and 2 pointers:
-        int[] arr3 = new int[n + m];
-        int left = 0;
+        int left = 0 ;
         int right = 0;
         int index = 0;
-
-        // Insert the elements from the 2 arrays
-        // into the 3rd array using left and right
-        // pointers:
-
-        while (left < n && right < m) {
-            if (a[left] <= b[right]) {
-                arr3[index] = a[left];
+        int[] c = new int[n+m];
+        
+        while(left < n && right < m){
+            if(a[left] <= b[right]){
+                c[index] = a[left];
                 left++;
                 index++;
-            } else {
-                arr3[index] = b[right];
+            }else{
+                c[index] = b[right];
                 right++;
                 index++;
             }
         }
-
-        // If right pointer reaches the end:
-        while (left < n) {
-            arr3[index++] = a[left++];
+        
+        while(left < n){
+            c[index++] = a[left++];
         }
-
-        // If left pointer reaches the end:
-        while (right < m) {
-            arr3[index++] = b[right++];
+        while(right < m){
+            c[index++] = b[right++];
         }
-
-        // Fill back the elements from arr3[]
-        // to arr1[] and arr2[]:
-        for (int i = 0; i < n + m; i++) {
-            if (i < n) {
-                a[i] = arr3[i];
-            } else {
-                b[i - n] = arr3[i];
+        
+        
+        for(int i = 0 ; i < n+m ; i++){
+            if(i < n){
+                a[i] = c[i];
+            }else{
+                b[i-n] = c[i];
             }
         }
     }
