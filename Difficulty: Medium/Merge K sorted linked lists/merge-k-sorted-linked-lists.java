@@ -77,26 +77,41 @@ public class Main {
 
 // arr is an array of Nodes of the heads of linked lists
 
+class Pair {
+    int val;
+    Node node;
+    
+    Pair(int val, Node node){
+        this.val = val;
+        this.node = node;
+    }
+}
+
 class Solution {
     // Function to merge K sorted linked list.
     Node mergeKLists(List<Node> arr) {
-        List<Integer> list = new ArrayList<>();
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b) -> a.val - b.val);
         
-        for(Node ele : arr){
-            Node temp = ele;
-            while(temp != null){
-                list.add(temp.data);
-                temp = temp.next;
+        for(Node n : arr){
+            if(n != null){
+                pq.add(new Pair(n.data,n));
             }
         }
         
-        Collections.sort(list);
-        
         Node dummy = new Node(-1);
         Node temp = dummy;
-        for(int ele : list){
-            temp.next = new Node(ele);
+        
+        while(!pq.isEmpty()){
+            Pair n1 = pq.remove();
+            int value = n1.val;
+            Node n2 = n1.node;
+            
+            temp.next = new Node(value);
             temp = temp.next;
+            
+            if(n2.next != null){
+                pq.add(new Pair(n2.next.data,n2.next));
+            }
         }
         
         return dummy.next;
