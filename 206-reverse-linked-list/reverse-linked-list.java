@@ -14,13 +14,14 @@
                 return null;
             }
 
-            ListNode prev = null, curr = head, nextNode = head;
+            ListNode prev = null, curr = head, nextNode = head.next;
             while(nextNode != null){
-                nextNode = nextNode.next;
                 curr.next = prev;
                 prev = curr;
                 curr = nextNode;
+                nextNode = nextNode.next;
             }
-            return prev;
+            curr.next = prev;
+            return curr;
         }
     }
