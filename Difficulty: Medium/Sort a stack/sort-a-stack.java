@@ -31,13 +31,19 @@ class GfG {
     public Stack<Integer> sort(Stack<Integer> s) {
         ArrayList<Integer> list = new ArrayList<>();
         
-        while(!s.isEmpty()){
+        // Step 1: Move all elements from Stack to ArrayList
+        while (!s.isEmpty()) {
             list.add(s.pop());
         }
+        
+        // Step 2: Sort in descending order
         Collections.sort(list);
-        for(int ele : list){
-            s.push(ele);
+        
+        // Step 3: Push sorted elements back to Stack
+        for (int num : list) {
+            s.push(num);
         }
+        
         return s;
     }
 }
