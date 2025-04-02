@@ -1,18 +1,18 @@
 class Solution {
     public int majorityElement(int[] nums) {
-        HashMap<Integer,Integer> hmap = new HashMap<>();
+        int majEle = 0;
+        int count = 0;
 
-        int n = nums.length/2;
-        
-        for (int num : nums) {
-            hmap.put(num, hmap.getOrDefault(num, 0) + 1);
-        }
-
-        for(int key : hmap.keySet()){
-            if(hmap.get(key) > n){
-                return key;
+        for(int i = 0 ; i < nums.length ; i++){
+            if(count == 0){
+                majEle = nums[i];
+                count++;
+            }else if(majEle != nums[i]){
+                count--;
+            }else{
+                count++;
             }
         }
-        return -1;
+        return majEle;
     }
 }
