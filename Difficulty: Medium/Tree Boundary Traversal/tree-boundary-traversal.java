@@ -138,7 +138,7 @@ class Solution {
     
     ArrayList<Integer> boundaryTraversal(Node node) {
         ArrayList<Integer> ans = new ArrayList<>();
-        if (!isLeaf(node)) ans.add(node.data);
+        if (isLeaf(node) == false) ans.add(node.data);
         addLeftBoundry(node, ans);
         addLeaves(node, ans);
         addRightBoundry(node, ans);
