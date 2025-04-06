@@ -21,7 +21,7 @@ class Solution {
 
         int lh = maxDepth(root.left);
         int rh = maxDepth(root.right);
-
-        return (1+Math.max(lh,rh));
+        
+        return 1 + Math.max(lh,rh);
     }
 }
