@@ -128,18 +128,16 @@ class Solution {
     // Function to return list containing elements of left view of binary tree.
     ArrayList<Integer> leftView(Node root) {
         ArrayList<Integer> list = new ArrayList<>();
-        traverse(root,0,list);
-        return list;
+        return leftV(root,list,0);
     }
     
-    public void traverse(Node node,int level,ArrayList<Integer> list){
-        if(node == null){
-            return;
+    public ArrayList<Integer> leftV(Node root,ArrayList<Integer> list,int level){
+        if(root == null)return list ;
+        if(list.size() == level){
+            list.add(root.data);
         }
-        if(level == list.size()){
-            list.add(node.data);
-        }
-        traverse(node.left,level+1,list);
-        traverse(node.right,level+1,list);
+        leftV(root.left,list,level+1);
+        leftV(root.right,list,level+1);
+        return list;
     }
 }
