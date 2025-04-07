@@ -15,19 +15,18 @@
  */
 class Solution {
     public int maxPathSum(TreeNode root) {
-        int[] maxSum = new int[1];
-        maxSum[0] = Integer.MIN_VALUE;
-        maximumPath(root, maxSum);
-        return maxSum[0];
+        int[] path = new int[1];
+        path[0] = Integer.MIN_VALUE;
+        maxPath(root,path);
+        return path[0];
     }
 
-    public static int maximumPath(TreeNode root, int[] maxSum){
-        if(root == null) return 0;
-        // Not Consider Negative Value Take "0" Instead
-        int lSum = Math.max(0, maximumPath(root.left, maxSum));
-        // Not Consider Negative Value Take "0" Instead
-        int rSum = Math.max(0, maximumPath(root.right, maxSum));
-        maxSum[0] = Math.max(maxSum[0], root.val + (lSum + rSum));
-        return root.val + Math.max(lSum, rSum);
+    public int maxPath(TreeNode root,int[] path){
+        TreeNode curr = root;
+        if(curr == null)return 0;
+        int lS = Math.max(0,maxPath(curr.left,path));
+        int rS = Math.max(0,maxPath(curr.right,path));
+        path[0] = Math.max(path[0],lS+rS+curr.val);
+        return curr.val + Math.max(lS,rS);
     }
 }
