@@ -23,7 +23,8 @@ class Node{
     }
 }
 */
-class Pair{
+
+class Pair {
     Node node;
     int line;
     
@@ -37,15 +38,15 @@ class Solution {
     // Function to return a list of nodes visible from the top view
     // from left to right in Binary Tree.
     static ArrayList<Integer> topView(Node root) {
-        ArrayList<Integer> list = new ArrayList<>();
-        Queue<Pair> q = new LinkedList<>();
+        ArrayList<Integer> res = new ArrayList<>();
         TreeMap<Integer,Integer> map = new TreeMap<>();
+        Queue<Pair> q = new LinkedList<>();
         
         q.offer(new Pair(root,0));
         while(!q.isEmpty()){
-            Pair pair = q.poll();
-            Node node = pair.node;
-            int line = pair.line;
+            Pair n = q.remove();
+            Node node = n.node;
+            int line = n.line;
             
             if(!map.containsKey(line)){
                 map.put(line,node.data);
@@ -59,11 +60,10 @@ class Solution {
             }
         }
         
-        for(int value : map.values()){
-            list.add(value);
+        for(int key : map.keySet()){
+            res.add(map.get(key));
         }
-        
-        return list;
+        return res;
     }
 }
 
