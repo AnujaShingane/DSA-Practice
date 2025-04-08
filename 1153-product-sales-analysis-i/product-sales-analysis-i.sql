@@ -1,4 +1,4 @@
 SELECT product_name, year, price
 FROM Sales s
-CROSS JOIN Product p
+LEFT JOIN Product p
 ON s.product_id = p.product_id
