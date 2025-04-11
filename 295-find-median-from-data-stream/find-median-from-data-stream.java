@@ -1,9 +1,10 @@
 class MedianFinder {
-    PriorityQueue<Integer> left = new PriorityQueue<>(Collections.reverseOrder());
-    PriorityQueue<Integer> right = new PriorityQueue<>();
+    PriorityQueue<Integer> left ;
+    PriorityQueue<Integer> right ;
     
     public MedianFinder() {
-        
+        left = new PriorityQueue<>(Collections.reverseOrder());
+        right = new PriorityQueue<>();
     }
     
     public void addNum(int num) {
