@@ -1,27 +1,26 @@
 class MedianFinder {
-    PriorityQueue<Integer> left;
-    PriorityQueue<Integer> right;
+    PriorityQueue<Integer> left = new PriorityQueue<>(Collections.reverseOrder());
+    PriorityQueue<Integer> right = new PriorityQueue<>();
     
     public MedianFinder() {
-        right = new PriorityQueue<>();
-        left = new PriorityQueue<>(Collections.reverseOrder());
+        
     }
     
     public void addNum(int num) {
-        if(left.size() == right.size()){  //odd element
+        if(left.size() == right.size()){ //coming oddth ele
             right.add(num);
             left.add(right.remove());
-        }else{  //even element
+        }else{ // eventh ele coming
             left.add(num);
             right.add(left.remove());
         }
     }
     
     public double findMedian() {
-        if(left.size() == right.size()){  //even no of elements
-            return (left.peek()+right.peek())/2.0;
-        }else{  // odd no of elements
-            return left.peek()*1.0;
+        if(left.size() == right.size()){
+            return (left.peek() + right.peek())*1.0/2 ;
+        }else{
+            return left.peek() * 1.0;
         }
     }
 }
