@@ -38,20 +38,14 @@ class GFG {
 
 class Solution {
     public int kthElement(int a[], int b[], int k) {
-        ArrayList<Integer> lista = new ArrayList<>();
-        ArrayList<Integer> listb = new ArrayList<>();
-        
+        ArrayList<Integer> list = new ArrayList<>();
         for(int i = 0 ; i < a.length ; i++){
-            lista.add(a[i]);
+            list.add(a[i]);
         }
         for(int i = 0 ; i < b.length ; i++){
-            listb.add(b[i]);
+            list.add(b[i]);
         }
-        
-        lista.addAll(listb);
-        
-        Collections.sort(lista);
-        
-        return lista.get(k-1);
+        Collections.sort(list);
+        return list.get(k-1);
     }
 }
