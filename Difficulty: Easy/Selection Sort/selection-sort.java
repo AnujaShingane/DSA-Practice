@@ -49,16 +49,17 @@ class GFG {
 
 class Solution {
     void selectionSort(int[] arr) {
-        for(int i = 0 ; i < arr.length ; i++){
+        int n = arr.length;
+        for(int i = 0 ; i < n ; i++){
             int smallest = i;
-            for(int j = i+1 ; j < arr.length ; j++){
+            for(int j = i+1 ; j < n ; j++){
                 if(arr[smallest] > arr[j]){
                     smallest = j;
                 }
             }
-            int temp = arr[smallest];
-            arr[smallest] = arr[i];
-            arr[i] = temp;
+            int temp = arr[i];
+            arr[i] = arr[smallest];
+            arr[smallest] = temp;
         }
     }
 }
