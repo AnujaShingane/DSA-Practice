@@ -41,7 +41,6 @@ class Solution {
 
         int lb = lowerBound(nums, target);
         
-        // Check if lb is out of bounds or target not found
         if (lb == -1 || lb >= n || nums[lb] != target) {
             res[0] = -1;
             res[1] = -1;
