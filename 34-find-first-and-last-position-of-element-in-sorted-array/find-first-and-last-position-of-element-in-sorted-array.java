@@ -40,14 +40,14 @@ class Solution {
         int n = nums.length;
 
         int lb = lowerBound(nums, target);
-        
+        int ub = upperBound(nums, target); 
         if (lb == -1 || lb >= n || nums[lb] != target) {
             res[0] = -1;
             res[1] = -1;
             return res;
         }
 
-        int ub = upperBound(nums, target);
+        // int ub = upperBound(nums, target);
 
         res[0] = lb;
         res[1] = ub;
