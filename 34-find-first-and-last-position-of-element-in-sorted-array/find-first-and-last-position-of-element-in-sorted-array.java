@@ -1,57 +1,56 @@
 class Solution {
-    public int lowerBound(int[] nums, int target){
+    public int firstOccurance(int[] nums, int target){
         int n = nums.length;
         int low = 0;
         int high = n-1;
-        int ans = n;
+        int ans = -1;
 
         while(low <= high){
-            int mid = low + (high-low)/2;
+            int mid = (low + high)/2;
 
-            if(nums[mid] >= target){
+            if(nums[mid] == target){
                 ans = mid;
                 high = mid-1;
-            }else{
+            }else if(nums[mid] < target){
                 low = mid+1;
+            }else{
+                high = mid-1;
             }
         }
         return ans;
     }
 
-    public int upperBound(int[] nums, int target){
+    public int lastOccurance(int[] nums, int target){
         int n = nums.length;
         int low = 0;
         int high = n-1;
-        int ans = n;
+        int ans = -1;
 
         while(low <= high){
-            int mid = low + (high-low)/2;
+            int mid = (low + high)/2;
 
-            if(nums[mid] > target){
+            if(nums[mid] == target){
                 ans = mid;
-                high = mid-1;
-            }else{
                 low = mid+1;
+            }else if(nums[mid] < target){
+                low = mid+1;
+            }else{
+                high = mid-1;
             }
         }
         return ans;
     }
 
     public int[] searchRange(int[] nums, int target) {
-        int n = nums.length;
-        int lb = lowerBound(nums,target);
-        int ub = upperBound(nums,target);
-
         int[] res = new int[2];
-        
-        if(lb == n || nums[lb] != target){
+        int first = firstOccurance(nums,target);
+        if(first == -1){
             res[0] = -1;
             res[1] = -1;
-            return res;
         }
-
-        res[0] = lb;
-        res[1] = ub-1;
+        int last = lastOccurance(nums,target);
+        res[0] = first;
+        res[1] = last;
         return res;
     }
 }
