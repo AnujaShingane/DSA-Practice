@@ -1,21 +1,23 @@
 class Solution {
     public void moveZeroes(int[] nums) {
         ArrayList<Integer> list = new ArrayList<>();
-        int i = 0;
-        while(i < nums.length){
-            if(nums[i] != 0){
-                list.add(nums[i]);
-                i++;
+        int n = nums.length;
+        int count = 0;
+
+        for(int i = 0 ; i < n ; i++){
+            if(nums[i] == 0){
+                count++;
             }else{
-                i++;
+                list.add(nums[i]);
             }
         }
-        
-        for(i = 0 ; i < list.size(); i++){
+
+        for(int i = 0 ; i < list.size() ; i++){
             nums[i] = list.get(i);
         }
-        for(i = list.size() ; i < nums.length ; i++){
+        for(int i = list.size() ; i < n ; i++){
             nums[i] = 0;
         }
+
     }
 }
