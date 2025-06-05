@@ -13,9 +13,9 @@ class Solution {
             }
         }
 
-        for (int i = 0; i < n / 2; i++) {
-            res[2*i] = pos.get(i);     // even index -> positive
-            res[2*i + 1] = neg.get(i); // odd index -> negative
+        for(int i = 0 ; i < n/2 ; i++){
+            res[2*i] = pos.get(i);
+            res[2*i+1] = neg.get(i);
         }
 
         return res;
