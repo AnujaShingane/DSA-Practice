@@ -4,7 +4,7 @@ class Solution {
         int mid = 0;
         int high = nums.length-1;
 
-        for(int i = 0 ; i < nums.length ; i++){
+        while(mid <= high){
             if(nums[mid] == 0){
                 int temp = nums[low];
                 nums[low] = nums[mid];
