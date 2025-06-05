@@ -1,8 +1,9 @@
 class Solution {
     public void sortColors(int[] nums) {
-        int low = 0;
+        int n = nums.length;
         int mid = 0;
-        int high = nums.length-1;
+        int low = 0;
+        int high = n-1;
 
         while(mid <= high){
             if(nums[mid] == 0){
