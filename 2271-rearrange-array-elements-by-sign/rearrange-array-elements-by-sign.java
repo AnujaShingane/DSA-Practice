@@ -4,7 +4,7 @@ class Solution {
         int[] res = new int[n];
         ArrayList<Integer> pos = new ArrayList<>();
         ArrayList<Integer> neg = new ArrayList<>();
-
+        
         for(int i = 0 ; i < n ; i++){
             if(nums[i] >= 0){
                 pos.add(nums[i]);
