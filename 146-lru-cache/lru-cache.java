@@ -8,7 +8,7 @@ class Node {
     }
     
 class LRUCache {
-    Node head = new Node(0, 0), tail = new Node(0, 0);
+    Node head = new Node(-1, -1), tail = new Node(-1, -1);
     Map<Integer, Node> map = new HashMap<>();
     int capacity;
 
