@@ -1,5 +1,4 @@
-class LRUCache {
-    class Node {
+class Node {
         int key, value;
         Node prev, next;
         Node(int key, int value) {
@@ -7,7 +6,8 @@ class LRUCache {
             this.value = value;
         }
     }
-
+    
+class LRUCache {
     Node head = new Node(0, 0), tail = new Node(0, 0);
     Map<Integer, Node> map = new HashMap<>();
     int capacity;
