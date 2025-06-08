@@ -1,28 +1,28 @@
 class Solution {
     public int[] nextGreaterElement(int[] nums1, int[] nums2) {
-        int[] nge = new int[nums2.length];
+        int n = nums1.length;
+        int m = nums2.length;
+        HashMap<Integer, Integer> map = new HashMap<>();
         Stack<Integer> st = new Stack<>();
-        HashMap<Integer,Integer> hmap = new HashMap<>();
-        int[] result = new int[nums1.length];
 
-        for(int i = nums2.length-1 ; i >= 0 ; i--){
-            while(!st.isEmpty() && nums2[i] >= st.peek()){
+        for (int i = m - 1; i >= 0; i--) {
+            while (!st.isEmpty() && st.peek() <= nums2[i]) {
                 st.pop();
             }
-            if(st.isEmpty()){
-                nge[i] = -1;
-            }else{
-                nge[i] = st.peek();
+
+            if (st.isEmpty()) {
+                map.put(nums2[i], -1);
+            } else {
+                map.put(nums2[i], st.peek());
             }
 
             st.push(nums2[i]);
         }
-        for(int i = 0 ; i < nums2.length ; i++){
-            hmap.put(nums2[i],nge[i]);
+
+        int[] finalres = new int[n];
+        for (int i = 0; i < n; i++) {
+            finalres[i] = map.get(nums1[i]);
         }
-        for(int i = 0 ; i < nums1.length ; i++){
-            result[i] = hmap.get(nums1[i]);
-        }
-        return result;
+        return finalres;
     }
 }
