@@ -3,10 +3,9 @@ class Solution {
         int n = fruits.length;
         int l = 0 , r = 0 , maxlen = 0;
         HashMap<Integer,Integer> map = new HashMap<>();
-        
-        while(r < n){
-            map.put(fruits[r],map.getOrDefault(fruits[r],0) +1);
 
+        while(r < n){
+            map.put(fruits[r],map.getOrDefault(fruits[r],0)+1);
             while(map.size() > 2){
                 map.put(fruits[l],map.get(fruits[l])-1);
                 if(map.get(fruits[l]) == 0){
@@ -14,7 +13,6 @@ class Solution {
                 }
                 l++;
             }
-
             if(map.size() <= 2){
                 maxlen = Math.max(maxlen,r-l+1);
             }
