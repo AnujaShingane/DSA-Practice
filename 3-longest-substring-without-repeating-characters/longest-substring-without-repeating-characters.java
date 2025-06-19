@@ -11,7 +11,7 @@ class Solution {
         while(r < n){
             if(hash[s.charAt(r)] != -1){
                 if(hash[s.charAt(r)] >= l){
-                    l = hash[s.charAt(r)] + 1; 
+                    l = hash[s.charAt(r)] + 1;
                 }
             }
 
