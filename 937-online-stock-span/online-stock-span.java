@@ -1,8 +1,8 @@
-class Pair {
+class Pair{
     int val;
     int index;
 
-    Pair(int val, int index) {
+    Pair(int val , int index){
         this.val = val;
         this.index = index;
     }
@@ -16,24 +16,28 @@ class StockSpanner {
         st = new Stack<>();
         day = 0;
     }
-
+    
     public int next(int price) {
-        day++; // Simulates the day index
+        day++;
 
-        // Pop all elements less than or equal to current price
-        while (!st.isEmpty() && st.peek().val <= price) {
+        while(!st.isEmpty() && st.peek().val <= price){
             st.pop();
         }
 
         int span;
-        if (st.isEmpty()) {
-            span = day;  // Entire span from day 1
-        } else {
+        if(st.isEmpty()){
+            span = day;
+        }else{
             span = day - st.peek().index;
         }
 
-        // Push current price and day index
-        st.push(new Pair(price, day));
+        st.push(new Pair(price,day));
         return span;
     }
 }
+
+/**
+ * Your StockSpanner object will be instantiated and called as such:
+ * StockSpanner obj = new StockSpanner();
+ * int param_1 = obj.next(price);
+ */
