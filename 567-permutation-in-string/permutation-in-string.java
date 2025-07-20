@@ -2,33 +2,23 @@ class Solution {
     public boolean checkInclusion(String s1, String s2) {
         if (s1.length() > s2.length()) return false;
 
-        int[] s1Count = new int[26];
-        int[] s2Count = new int[26];
-        int len1 = s1.length(), len2 = s2.length();
+        int[] freq1 = new int[26];
+        int[] freq2 = new int[26];
 
-        // Fill the counts for s1 and first window of s2
-        for (int i = 0; i < len1; i++) {
-            s1Count[s1.charAt(i) - 'a']++;
-            s2Count[s2.charAt(i) - 'a']++;
+        for (int i = 0; i < s1.length(); i++) {
+            freq1[s1.charAt(i) - 'a']++;
+            freq2[s2.charAt(i) - 'a']++;
         }
 
-        // Slide the window
-        for (int i = len1; i < len2; i++) {
-            if (matches(s1Count, s2Count)) return true;
+        if (Arrays.equals(freq1, freq2)) return true;
 
-            // Slide window: remove left char, add right char
-            s2Count[s2.charAt(i) - 'a']++;
-            s2Count[s2.charAt(i - len1) - 'a']--;
+        for (int i = s1.length(); i < s2.length(); i++) {
+            freq2[s2.charAt(i) - 'a']++;                      // include new char
+            freq2[s2.charAt(i - s1.length()) - 'a']--;        // remove old char
+
+            if (Arrays.equals(freq1, freq2)) return true;
         }
 
-        // Check last window
-        return matches(s1Count, s2Count);
-    }
-
-    private boolean matches(int[] arr1, int[] arr2) {
-        for (int i = 0; i < 26; i++) {
-            if (arr1[i] != arr2[i]) return false;
-        }
-        return true;
+        return false;
     }
 }
