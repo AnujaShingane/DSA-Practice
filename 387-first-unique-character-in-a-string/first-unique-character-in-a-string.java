@@ -1,34 +1,13 @@
-class Pair {
-    int freq;
-    int idx;
-
-    Pair(int freq, int idx) {
-        this.freq = freq;
-        this.idx = idx;
-    }
-}
-
 class Solution {
     public int firstUniqChar(String s) {
-        TreeMap<Character, Pair> map = new TreeMap<>();
+        int[] freq = new int[26];
 
-        // Build map of character -> (frequency, index)
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (map.containsKey(c)) {
-                map.get(c).freq++;
-            } else {
-                map.put(c, new Pair(1, i));
-            }
+        for (char c : s.toCharArray()) {
+            freq[c - 'a']++;
         }
 
-        // Convert to list and sort by index
-        List<Pair> list = new ArrayList<>(map.values());
-        list.sort((p1, p2) -> Integer.compare(p1.idx, p2.idx));
-
-        // Find first with freq == 1
-        for (Pair p : list) {
-            if (p.freq == 1) return p.idx;
+        for (int i = 0; i < s.length(); i++) {
+            if (freq[s.charAt(i) - 'a'] == 1) return i;
         }
 
         return -1;
