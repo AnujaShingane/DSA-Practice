@@ -1,44 +1,49 @@
 class Solution {
     public int[][] insert(int[][] intervals, int[] newInterval) {
-        int[][] newArr = new int[intervals.length + 1][2];
-        int insertIndex = intervals.length;
+        int[][] newArr = new int[intervals.length+1][2];
+        if(intervals.length == 0 || intervals[0].length == 0){
+            newArr[0] = newInterval;
+            return newArr;
+        }
+        int ind = intervals.length;
 
-        // Find correct index to insert newInterval
-        for (int i = 0; i < intervals.length; i++) {
-            if (intervals[i][0] > newInterval[0]) {
-                insertIndex = i;
+        for(int i = 0 ; i < intervals.length ; i++){
+            if(intervals[i][0] > newInterval[0]){
+                ind = i;
                 break;
             }
         }
 
-        // Fill newArr by inserting newInterval at insertIndex
-        for (int i = 0; i < insertIndex; i++) {
+        for(int i = 0 ; i < ind ; i++){
             newArr[i] = intervals[i];
         }
-        newArr[insertIndex] = newInterval;
-        for (int i = insertIndex; i < intervals.length; i++) {
-            newArr[i + 1] = intervals[i];
+        newArr[ind] = newInterval;
+        for(int i = ind ; i < intervals.length ; i++){
+            newArr[i+1] = intervals[i];
         }
 
         return merge(newArr);
     }
 
     public int[][] merge(int[][] intervals) {
-        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+        Arrays.sort(intervals , (a,b) -> Integer.compare(a[0],b[0]));
         List<int[]> list = new ArrayList<>();
         list.add(intervals[0]);
 
-        for (int i = 1; i < intervals.length; i++) {
-            int[] last = list.get(list.size() - 1);
-            int[] current = intervals[i];
+        for(int i = 1 ; i < intervals.length ; i++){
+            int[] arr = list.get(list.size()-1);
 
-            if (last[1] >= current[0]) {
-                last[1] = Math.max(last[1], current[1]);
-            } else {
-                list.add(current);
+            if(arr[1] >= intervals[i][0]){
+                arr[1] = Math.max(arr[1],intervals[i][1]);
+            }else{
+                list.add(intervals[i]);
             }
         }
 
-        return list.toArray(new int[list.size()][]);
+        int[][] res = new int[list.size()][2];
+        for(int i = 0 ; i < list.size() ; i++){
+            res[i] = list.get(i);
+        }
+        return res;
     }
 }
