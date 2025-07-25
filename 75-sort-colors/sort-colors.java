@@ -1,9 +1,14 @@
 class Solution {
     public void sortColors(int[] nums) {
-        int n = nums.length;
-        int mid = 0;
+        // Initialize: low = 0, mid = 0, high = n - 1
+        // Loop while mid <= high:
+        // If nums[mid] == 0 --> swap with low, increment both low and mid
+        // If nums[mid] == 1  -->  just move mid forward
+        // If nums[mid] == 2  -->  swap with high, decrement high
+
         int low = 0;
-        int high = n-1;
+        int mid = 0;
+        int high = nums.length-1;
 
         while(mid <= high){
             if(nums[mid] == 0){
