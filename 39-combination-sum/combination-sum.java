@@ -16,12 +16,12 @@ class Solution {
             return;
         }
 
-        // Include current number (stay on same index)
+        // Include: stay at same index
         list.add(candidates[ind]);
         subsequences(ind, list, sum + candidates[ind], candidates, target, res);
         list.remove(list.size() - 1);
 
-        // Exclude current number (move to next index)
+        // Exclude: move to next index
         subsequences(ind + 1, list, sum, candidates, target, res);
     }
 }
