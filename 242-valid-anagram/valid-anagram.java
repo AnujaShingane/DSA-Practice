@@ -2,17 +2,18 @@ public class Solution {
     public boolean isAnagram(String s, String t) {
         if (s.length() != t.length()) return false;
 
-        int[] count = new int[26];  // for lowercase letters a-z
+        Map<Character, Integer> map = new HashMap<>();
 
-        for (int i = 0; i < s.length(); i++) {
-            count[s.charAt(i) - 'a']++;   // increment for s
-            count[t.charAt(i) - 'a']--;   // decrement for t
+        for (char c : s.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
         }
 
-        for (int val : count) {
-            if (val != 0) return false;   // mismatch found
+        for (char c : t.toCharArray()) {
+            if (!map.containsKey(c)) return false;
+            map.put(c, map.get(c) - 1);
+            if (map.get(c) == 0) map.remove(c);
         }
 
-        return true;
+        return map.isEmpty();
     }
 }
