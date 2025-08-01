@@ -10,7 +10,7 @@ class Solution {
         }
         maxAvg = (double)sum/k;
 
-        while(r <= n-2){
+        while(r < n-1){
             sum -= nums[l];
             l++;
             r++;
