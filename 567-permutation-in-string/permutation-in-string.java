@@ -18,7 +18,7 @@ class Solution {
 
             if (Arrays.equals(freq1, freq2)) return true;
         }
-
+        
         return false;
     }
 }
