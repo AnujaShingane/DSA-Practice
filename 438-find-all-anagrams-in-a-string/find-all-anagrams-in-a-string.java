@@ -7,31 +7,28 @@ class Solution {
 
         int i = 0;
         int j = p.length();
-
-        while (i <= s.length() - p.length()) {
-            String str = s.substring(i, j);
-            if (isAnagram(mainSorted, str)) {
-                res.add(i);
-            }
+        while(i <= s.length()-p.length()){
+            String str = s.substring(i,j);
+            if(isAnagram(mainSorted,str))res.add(i);
             i++;
             j++;
         }
-
+        String lastStr = s.substring(i++);
+        if(isAnagram(mainSorted,lastStr))res.add(i);
         return res;
     }
 
     public boolean isAnagram(String mainSorted, String str) {
-        if (mainSorted.length() != str.length()) return false;
-
+        if(mainSorted.length() != str.length())return false;
         int[] arr = new int[26];
 
-        for (int i = 0; i < str.length(); i++) {
+        for(int i = 0 ; i < str.length() ; i++){
             arr[str.charAt(i) - 'a']++;
             arr[mainSorted.charAt(i) - 'a']--;
         }
 
-        for (int count : arr) {
-            if (count != 0) {
+        for(int i = 0 ; i < arr.length ; i++){
+            if(arr[i] != 0){
                 return false;
             }
         }
