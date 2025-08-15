@@ -1,8 +1,8 @@
 class Solution {
     public int compress(char[] chars) {
-        int n = chars.length;
         int i = 0;
         int j = 0;
+        int n = chars.length;
 
         while(j < n){
             char ch = chars[j];
@@ -13,9 +13,10 @@ class Solution {
             }
             chars[i++] = ch;
             int cnt = j-start;
+
             if(cnt > 1){
-                String str = String.valueOf(cnt);
-                for(char c : str.toCharArray()){
+                String cntStr = String.valueOf(cnt);
+                for(char c : cntStr.toCharArray()){
                     chars[i++] = c;
                 }
             }
