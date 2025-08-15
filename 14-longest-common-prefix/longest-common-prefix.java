@@ -6,7 +6,7 @@ class Solution {
         
         int i = 0;
         int j = 0;
-        while(i < str1.length && j < str2.length && str1[i] == str2[j]){
+        while(i < str1.length && str1[i] == str2[j]){
             i++;
             j++;
         }
