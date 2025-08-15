@@ -1,26 +1,21 @@
 class Solution {
     public int compress(char[] chars) {
-        int i = 0; // write pointer
-        int j = 0; // read pointer
         int n = chars.length;
+        int i = 0;
+        int j = 0;
 
-        while (j < n) {
+        while(j < n){
             char ch = chars[j];
             int start = j;
-            
-            // Move j until a different char is found
-            while (j < n && chars[j] == ch) {
+
+            while(j < n && chars[j] == ch){
                 j++;
             }
-
-            // Write the character
             chars[i++] = ch;
-
-            // Write the count if > 1
-            int count = j - start;
-            if (count > 1) {
-                String cntStr = String.valueOf(count);
-                for (char c : cntStr.toCharArray()) {
+            int cnt = j-start;
+            if(cnt > 1){
+                String str = String.valueOf(cnt);
+                for(char c : str.toCharArray()){
                     chars[i++] = c;
                 }
             }
