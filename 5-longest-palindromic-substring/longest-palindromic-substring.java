@@ -14,15 +14,18 @@ class Solution {
         return longest;
     }
 
-    public boolean isPalindrome(String str){
-        int left = 0;
-        int right = str.length() - 1;
+    public boolean isPalindrome(String str) {
+        int i = 0;
+        int j = str.length()-1;
 
-        while(left < right){
-            if(str.charAt(left) != str.charAt(right)) return false;
-            left++;
-            right--;
+        while(i < j){
+            if(str.charAt(i) != str.charAt(j)){
+                return false;
+            }
+            i++;
+            j--;
         }
         return true;
     }
+
 }
