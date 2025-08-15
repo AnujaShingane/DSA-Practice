@@ -4,8 +4,8 @@ class Solution {
         String longest = "";
 
         for(int i = 0 ; i < n ; i++){
-            for(int j = i ; j < n ; j++){
-                String sub = s.substring(i,j+1);
+            for(int j = i+1 ; j <= n ; j++){
+                String sub = s.substring(i,j);
                 if(isPalindrome(sub) && sub.length() > longest.length()){
                     longest = sub;
                 }
