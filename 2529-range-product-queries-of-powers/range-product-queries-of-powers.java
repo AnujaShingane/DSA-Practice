@@ -15,14 +15,14 @@ class Solution {
         List<Integer> powers = new ArrayList<>();
         for (int i = 0; i < ind_list.size(); i++) {
             if (ind_list.get(i) == 1) {
-                int pow = (int) Math.pow(2, i);   // keep your approach
+                int pow = (int) Math.pow(2, i); 
                 powers.add(pow);
             }
         }
 
         List<Integer> ans = new ArrayList<>();
         for (int[] arr : queries) {
-            int res = 1;                          // reset per query (inside same loop)
+            int res = 1;                      
             int first_ind = arr[0];
             int second_ind = arr[1];
 
