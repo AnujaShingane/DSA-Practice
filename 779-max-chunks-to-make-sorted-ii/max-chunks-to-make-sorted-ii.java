@@ -3,19 +3,16 @@ class Solution {
         int n = arr.length;
         int[] sorted = arr.clone();
         Arrays.sort(sorted);
+        int sum1 = 0;
+        int sum2 = 0;
+        int chuncks = 0;
 
-        int chunks = 0;
-        int sum1 = 0, sum2 = 0;
-
-        for (int i = 0; i < n; i++) {
+        for(int i = 0 ; i < n ; i++){
             sum1 += arr[i];
             sum2 += sorted[i];
 
-            if (sum1 == sum2) {
-                chunks++;
-            }
+            if(sum1 == sum2)chuncks++;
         }
-
-        return chunks;
+        return chuncks;
     }
 }
