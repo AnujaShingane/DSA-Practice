@@ -1,0 +1,24 @@
+class Solution {
+    public int pivotIndex(int[] nums) {
+        int n = nums.length;
+        int[] prefixr = new int[n];
+        int[] prefixl = new int[n];
+
+        for(int i = 0 ; i < n ; i++){
+            if(i == 0)prefixr[0] = nums[i];
+            else prefixr[i] = nums[i]+prefixr[i-1];
+        }
+        for(int i = n-1 ; i >= 0 ; i--){
+            if(i == n-1)prefixl[n-1] = nums[i];
+            else prefixl[i] = nums[i]+prefixl[i+1];
+        }
+
+        int i=0 ;
+        while(i < n){
+            if(prefixr[i] != prefixl[i]){
+                i++;
+            }else return i;
+        }
+        return -1;
+    }
+}
