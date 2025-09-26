@@ -13,7 +13,6 @@ class NumArray {
     }
     
     public int sumRange(int left, int right) {
-        if(prefix.length==0)return 0;
         if(left == 0)return prefix[right];
         else return prefix[right]-prefix[left-1];
     }
