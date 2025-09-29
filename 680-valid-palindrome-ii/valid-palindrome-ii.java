@@ -6,7 +6,9 @@ class Solution {
 
         while(i<j){
             if(s.charAt(i)!=s.charAt(j)){
-                return isPalindrome(s,i+1,j)||isPalindrome(s,i,j-1);
+                if(isPalindrome(s,i+1,j)||isPalindrome(s,i,j-1)){
+                    return true;
+                }else return false;
             }
             i++;
             j--;
@@ -15,6 +17,11 @@ class Solution {
     }
 
     public boolean isPalindrome(String s,int i,int j) {
+        s=s.trim();
+        s=s.replaceAll("\\s+","");
+        s=s.replaceAll("[^a-zA-Z0-9]","");
+        s=s.toLowerCase();
+
         while(i<j){
             if(s.charAt(i)!=s.charAt(j)){
                 return false;
