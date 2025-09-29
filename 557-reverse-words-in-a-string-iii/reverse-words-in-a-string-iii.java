@@ -1,0 +1,29 @@
+class Solution {
+    public String reverseWords(String s) {
+        s=s.trim();
+        String[] words = s.split("\\s+");
+        StringBuilder sb = new StringBuilder();
+
+        for(int i = 0 ; i < words.length ; i++){
+            String revWord = reverseWordChar(words[i]);
+            sb.append(revWord);
+            if(i!=words.length-1)sb.append(" ");
+        }
+        return sb.toString();
+    }
+
+    public String reverseWordChar(String str) {
+        char[] arr = str.toCharArray();
+        int i = 0;
+        int j = arr.length-1;
+
+        while(i<j){
+            char temp = arr[i];
+            arr[i]=arr[j];
+            arr[j]=temp;
+            i++;
+            j--;
+        }
+        return new String(arr);
+    }
+}
