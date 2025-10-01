@@ -1,24 +1,37 @@
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
-        if (s1.length() > s2.length()) return false;
-
-        int[] freq1 = new int[26];
-        int[] freq2 = new int[26];
-
-        for (int i = 0; i < s1.length(); i++) {
-            freq1[s1.charAt(i) - 'a']++;
-            freq2[s2.charAt(i) - 'a']++;
-        }
-
-        if (Arrays.equals(freq1, freq2)) return true;
-
-        for (int i = s1.length(); i < s2.length(); i++) {
-            freq2[s2.charAt(i) - 'a']++;                      // include new char
-            freq2[s2.charAt(i - s1.length()) - 'a']--;        // remove old char
-
-            if (Arrays.equals(freq1, freq2)) return true;
-        }
+        int n1 = s1.length();
+        int n2 = s2.length();
+        int i = 0;
+        int j = n1-1;
         
+        while(j<n2){
+            String str = s2.substring(i,j+1);
+            if(isAnagram(str,s1)){
+                return true;
+            }
+            i++;
+            j++;
+        }
         return false;
+    }
+
+    public boolean isAnagram(String str, String p) {
+        int n = str.length();
+        if(str.length()!=p.length()){
+            return false;
+        }
+
+        int[] arr = new int[26];
+        Arrays.fill(arr,0);
+        for(int i = 0 ; i < n ; i++){
+            arr[str.charAt(i)-'a']++;
+            arr[p.charAt(i)-'a']--;
+        }
+
+        for(int num:arr){
+            if(num!=0)return false;
+        }
+        return true;
     }
 }
