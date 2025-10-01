@@ -1,36 +1,37 @@
 class Solution {
     public List<Integer> findAnagrams(String s, String p) {
-        char[] ch = p.toCharArray();
-        Arrays.sort(ch);
-        String mainSorted = new String(ch);
-        List<Integer> res = new ArrayList<>();
-
+        int n = s.length();
+        int pl=p.length();
         int i = 0;
-        int j = p.length();
-        while(i <= s.length()-p.length()){
-            String str = s.substring(i,j);
-            if(isAnagram(mainSorted,str))res.add(i);
+        int j = pl-1;
+        List<Integer> res = new ArrayList<>();
+        
+        while(j<n){
+            String str = s.substring(i,j+1);
+            if(isAnagram(str,p)){
+                res.add(i);
+            }
             i++;
             j++;
         }
-        String lastStr = s.substring(i++);
-        if(isAnagram(mainSorted,lastStr))res.add(i);
         return res;
     }
 
-    public boolean isAnagram(String mainSorted, String str) {
-        if(mainSorted.length() != str.length())return false;
-        int[] arr = new int[26];
-
-        for(int i = 0 ; i < str.length() ; i++){
-            arr[str.charAt(i) - 'a']++;
-            arr[mainSorted.charAt(i) - 'a']--;
+    public boolean isAnagram(String str, String p) {
+        int n = str.length();
+        if(str.length()!=p.length()){
+            return false;
         }
 
-        for(int i = 0 ; i < arr.length ; i++){
-            if(arr[i] != 0){
-                return false;
-            }
+        int[] arr = new int[26];
+        Arrays.fill(arr,0);
+        for(int i = 0 ; i < n ; i++){
+            arr[str.charAt(i)-'a']++;
+            arr[p.charAt(i)-'a']--;
+        }
+
+        for(int num:arr){
+            if(num!=0)return false;
         }
         return true;
     }
