@@ -7,14 +7,17 @@ class Solution {
 
         while(i<n){
             int j = i;
-            while (j < n && chars[j] == chars[i]) j++;
-            cnt = j - i;
+            while (j < n && chars[j] == chars[i]){
+                j++;
+                cnt++;
+            }
             if(cnt==1)sb.append(chars[i]);
             if (cnt > 1){
                 sb.append(chars[i]);
                 sb.append(cnt);  
-            }      // writes all digits
+            }   
             i = j;
+            cnt=0;
         }
 
         String str = sb.toString();
