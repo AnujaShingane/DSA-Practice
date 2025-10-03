@@ -15,8 +15,11 @@ class Solution {
             }
         }
 
-        for (char c = 'a'; c <= 'z'; c++) {
-            while (arr[c - 'a']-- > 0) sb.append(c);
+        for(char c = 'a' ; c <= 'z' ; c++){
+            while(arr[c-'a']!=0){
+                sb.append(c);
+                arr[c-'a']--;
+            }
         }
 
         return sb.toString();
