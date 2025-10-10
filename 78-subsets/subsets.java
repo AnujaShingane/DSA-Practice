@@ -2,18 +2,19 @@ class Solution {
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
         List<Integer> list = new ArrayList<>();
-        subsequences(0,list,nums,res);
+        func(nums,0,list,res);
+
         return res;
     }
 
-    public void subsequences(int ind , List<Integer> list , int[] nums , List<List<Integer>> res) {
-        if(ind >= nums.length){
+    public void func(int[] nums,int i,List<Integer> list,List<List<Integer>> res) {
+        if(i>=nums.length){
             res.add(new ArrayList<>(list));
             return;
         }
-        list.add(nums[ind]); // take a element
-        subsequences(ind+1,list,nums,res);
+        list.add(nums[i]);
+        func(nums,i+1,list,res);
         list.remove(list.size()-1);
-        subsequences(ind+1,list,nums,res);
+        func(nums,i+1,list,res);
     }
 }
