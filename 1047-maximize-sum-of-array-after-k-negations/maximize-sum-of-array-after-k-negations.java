@@ -7,7 +7,7 @@ class Solution {
             pq.add(nums[i]);
         }
 
-        while(k-- > 0){
+        while(k-- != 0){
             pq.add(-(pq.remove()));
         }
 
