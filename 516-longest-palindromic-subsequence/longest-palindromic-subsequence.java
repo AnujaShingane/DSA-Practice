@@ -19,9 +19,7 @@ class Solution {
                     ans = Math.max(ans,curr[j]);
                 }else curr[j]=Math.max(prev[j],curr[j-1]);
             }
-            int[] temp = prev;
-            prev = curr;
-            curr = temp;
+            prev = curr.clone();
         }
         return prev[m];
     }
