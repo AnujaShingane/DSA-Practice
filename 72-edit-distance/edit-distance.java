@@ -2,20 +2,20 @@ class Solution {
     public int minDistance(String word1, String word2) {
         int n = word1.length();
         int m = word2.length();
-        int[][] dp = new int[n][m];
+        int[][] dp = new int[n+1][m+1];
         for(int[] row : dp){
             Arrays.fill(row,-1);
         }
-        return func(n-1,m-1,word1,word2,dp);
+        return func(n,m,word1,word2,dp);
     }
 
     public int func(int i,int j , String s1, String s2,int[][] dp) {
-        if(i<0)return j+1;
-        if(j<0)return i+1;
+        if(i==0)return j;
+        if(j==0)return i;
 
         if(dp[i][j] != -1)return dp[i][j];
 
-        if(s1.charAt(i)==s2.charAt(j)){
+        if(s1.charAt(i-1)==s2.charAt(j-1)){
             return dp[i][j]=func(i-1,j-1,s1,s2,dp);
         }
 
