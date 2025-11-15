@@ -6,9 +6,8 @@ class Solution {
             Arrays.fill(row,-1);
         }
         int ans = func(n-1,amount,coins,dp);
-        if(ans>= (int)1e9){
-            return -1;
-        }else return ans;
+        if(ans >= (int)1e9)return -1;
+        else return ans;
     }
 
     public int func(int ind, int target,int[] coins,int[][] dp) {
@@ -17,11 +16,10 @@ class Solution {
             else return (int)1e9;
         }
         if(dp[ind][target]!=-1)return dp[ind][target];
-        
         int notPick = func(ind-1,target,coins,dp);
         int pick = Integer.MAX_VALUE;
-        if(coins[ind]<=target){
-            pick = 1 + func(ind,target-coins[ind],coins,dp);
+        if(target>=coins[ind]){
+            pick = 1+func(ind,target-coins[ind],coins,dp);
         }
 
         return dp[ind][target]=Math.min(notPick,pick);
