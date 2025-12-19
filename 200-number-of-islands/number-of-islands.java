@@ -39,7 +39,6 @@ class Solution {
             for (int delrow = -1; delrow <= 1; delrow++) {
                 for (int delcol = -1; delcol <= 1; delcol++) {
 
-                    // ❌ skip diagonals and self
                     if (Math.abs(delrow) + Math.abs(delcol) != 1) continue;
 
                     int nrow = row + delrow;
