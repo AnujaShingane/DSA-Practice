@@ -12,25 +12,21 @@ class Solution {
     public int numIslands(char[][] grid) {
         int n = grid.length;
         int m = grid[0].length;
-
         boolean[][] vis = new boolean[n][m];
-        int cnt = 0;
 
+        int cnt = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 if (grid[i][j] == '1' && vis[i][j] == false) {
                     cnt++;
-                    bfs(i, j, vis, grid);
+                    bfs(n, m, i, j, vis, grid);
                 }
             }
         }
         return cnt;
     }
 
-    public void bfs(int i, int j, boolean[][] vis, char[][] grid) {
-        int n = grid.length;
-        int m = grid[0].length;
-
+    public void bfs(int n, int m, int i, int j, boolean[][] vis, char[][] grid) {
         Queue<Pair> q = new LinkedList<>();
         q.add(new Pair(i, j));
         vis[i][j] = true;
@@ -40,40 +36,24 @@ class Solution {
             int row = rem.row;
             int col = rem.col;
 
-            // UP
-            if (row - 1 >= 0 &&
-                grid[row - 1][col] == '1' &&
-                vis[row - 1][col] == false) {
+            for (int delrow = -1; delrow <= 1; delrow++) {
+                for (int delcol = -1; delcol <= 1; delcol++) {
 
-                vis[row - 1][col] = true;
-                q.add(new Pair(row - 1, col));
-            }
+                    // ❌ skip diagonals and self
+                    if (Math.abs(delrow) + Math.abs(delcol) != 1) continue;
 
-            // DOWN
-            if (row + 1 < n &&
-                grid[row + 1][col] == '1' &&
-                vis[row + 1][col] == false) {
+                    int nrow = row + delrow;
+                    int ncol = col + delcol;
 
-                vis[row + 1][col] = true;
-                q.add(new Pair(row + 1, col));
-            }
+                    if (nrow >= 0 && nrow < n &&
+                        ncol >= 0 && ncol < m &&
+                        vis[nrow][ncol] == false &&
+                        grid[nrow][ncol] == '1') {
 
-            // LEFT
-            if (col - 1 >= 0 &&
-                grid[row][col - 1] == '1' &&
-                vis[row][col - 1] == false) {
-
-                vis[row][col - 1] = true;
-                q.add(new Pair(row, col - 1));
-            }
-
-            // RIGHT
-            if (col + 1 < m &&
-                grid[row][col + 1] == '1' &&
-                vis[row][col + 1] == false) {
-
-                vis[row][col + 1] = true;
-                q.add(new Pair(row, col + 1));
+                        vis[nrow][ncol] = true;
+                        q.add(new Pair(nrow, ncol));
+                    }
+                }
             }
         }
     }
