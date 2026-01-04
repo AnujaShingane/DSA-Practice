@@ -18,3 +18,11 @@ class Solution {
         func(nums,i+1,list,res);
     }
 }
+
+
+//pick  notpick
+
+/*
+    notpick = func();
+    pick = list.add(nums[i]) + func();
+*/
