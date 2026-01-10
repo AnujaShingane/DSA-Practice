@@ -1,26 +1,27 @@
-import java.util.*;
-
 class Solution {
-    static final int MOD = 1_000_000_007;
-
-    // Count of subsets with sum = target
+    public static int mod = (int)(1e9+7);
+    // Function to calculate the number of subsets with a given sum
     public int perfectSum(int[] nums, int target) {
-        int[] dp = new int[target + 1];
-        dp[0] = 1; // empty subset
-
-        for (int x : nums) {
-            if (x == 0) {
-                // zero doubles all existing ways: pick or not-pick
-                for (int s = 0; s <= target; s++) {
-                    dp[s] = (dp[s] * 2) % MOD;
-                }
-            } else {
-                // iterate descending to use each item once
-                for (int s = target; s >= x; s--) {
-                    dp[s] = (dp[s] + dp[s - x]) % MOD;
-                }
-            }
+        int n = nums.length;
+        int[][] dp = new int[n][target+1];
+        for(int[] arr : dp)Arrays.fill(arr,-1);
+        
+        return func(n-1,nums,target,dp);
+    }
+    
+    public int func(int i,int[] nums,int target,int[][] dp){
+        if(i<0){
+            if(target==0)return 1;
+            else return 0;
         }
-        return dp[target];
+        
+        if(dp[i][target]!=-1)return dp[i][target];
+        
+        int take = 0;
+        if(target>=nums[i])take = func(i-1,nums,target-nums[i],dp);
+        
+        int nottake = func(i-1,nums,target,dp);
+        
+        return dp[i][target]=((take)%mod+(nottake)%mod)%mod;
     }
 }
