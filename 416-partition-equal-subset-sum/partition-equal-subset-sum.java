@@ -2,33 +2,29 @@ class Solution {
     public boolean canPartition(int[] nums) {
         int n = nums.length;
         int sum = 0;
+
         for(int i = 0 ; i < n ; i++){
             sum+=nums[i];
         }
+        if(sum%2!=0)return false;
+        int target = sum/2;
 
-        if(sum % 2 != 0)return false;
+        Boolean[][] dp = new Boolean[n][target+1];
 
-        int[][] dp = new int[n][(sum/2)+1];
-        for(int[] row : dp){
-            Arrays.fill(row,-1);
-        }
-
-        return func(n-1, sum/2,nums,dp);
+        return func(n-1,target,nums,dp);
     }
 
-    public boolean func(int ind,int target,int[] nums, int[][] dp){
+    public boolean func(int i,int target,int[] nums,Boolean[][] dp){
         if(target==0)return true;
-        if(ind==0)return (nums[0]==target);
+        if(i==0)return target==nums[0];
 
-        if(dp[ind][target]!=-1)return (dp[ind][target]==1);
+        if(dp[i][target]!=null)return dp[i][target];
 
-        boolean nottake = func(ind-1,target,nums,dp);
         boolean take = false;
-        if(nums[ind] <= target){
-            take = func(ind-1,target-nums[ind],nums,dp);
-        }
+        if(target>=nums[i])take=func(i-1,target-nums[i],nums,dp);
 
-        dp[ind][target] = (take || nottake)?1:0;
-        return dp[ind][target]==1;
+        boolean nottake = func(i-1,target,nums,dp);
+
+        return dp[i][target]=take || nottake;
     }
 }
