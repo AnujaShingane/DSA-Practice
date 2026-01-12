@@ -1,38 +1,34 @@
-import java.util.*;
-
 class Solution {
-    int ans; 
+    int max = 0;
 
     public int longestCommonSubstr(String s1, String s2) {
         int n = s1.length();
         int m = s2.length();
 
         int[][] dp = new int[n+1][m+1];
-        for (int[] row : dp) Arrays.fill(row, -1);
+        for(int[] row : dp) Arrays.fill(row, -1);
 
-        ans = 0;
-
-        // IMPORTANT: must explore all (i, j)
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= m; j++) {
-                func(i, j, s1, s2, dp);
-            }
-        }
-
-        return ans;
+        func(n, m, s1, s2, dp);
+        return max;
     }
 
     public int func(int i, int j, String s1, String s2, int[][] dp) {
         if (i == 0 || j == 0) return 0;
+
         if (dp[i][j] != -1) return dp[i][j];
 
-        if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
-            dp[i][j] = 1 + func(i - 1, j - 1, s1, s2, dp);
-            ans = Math.max(ans, dp[i][j]); // Update global max
+        int val = 0;
+        if (s1.charAt(i-1) == s2.charAt(j-1)) {
+            val = 1 + func(i-1, j-1, s1, s2, dp);
+            max = Math.max(max, val);
         } else {
-            dp[i][j] = 0; // substring break
+            val = 0;
         }
 
-        return dp[i][j];
+        // must explore all cells
+        func(i-1, j, s1, s2, dp);
+        func(i, j-1, s1, s2, dp);
+
+        return dp[i][j] = val;
     }
 }
