@@ -3,23 +3,27 @@ class Solution {
         int n = s.length();
         StringBuilder sb = new StringBuilder(s);
         String s2 = sb.reverse().toString();
-        return n-lcs(s,s2);
+        return n-longestPalindromeSubseq(s);
     }
 
-    public int lcs(String s1,String s2) {
-        int n = s1.length();
-        int m = s2.length();
-        int[] prev = new int[m+1];
-        int[] curr = new int[m+1];
+    public int longestPalindromeSubseq(String s) {
+        int n = s.length();
+        int[][] dp = new int[n][n];
 
-        for(int i = 1 ; i <= n ; i++){
-            for(int j = 1 ; j <= m ; j++){
-                if(s1.charAt(i-1)==s2.charAt(j-1))curr[j] = 1+prev[j-1];
-                else curr[j] = Math.max(prev[j],curr[j-1]);
-            }
-            prev = curr.clone();
+        for(int i = 0 ; i < n ; i++){
+            dp[i][i]=1;
         }
 
-        return curr[m];
+        for(int i = n-1 ; i >= 0  ; i--){
+            for(int j = i+1 ; j < n ; j++){
+                if(s.charAt(i)==s.charAt(j)){
+                    dp[i][j] = 2+dp[i+1][j-1];
+                }else{
+                    dp[i][j] = Math.max(dp[i+1][j],dp[i][j-1]);
+                }
+            }
+        }
+        
+        return dp[0][n-1];
     }
 }
