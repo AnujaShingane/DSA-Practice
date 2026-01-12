@@ -1,8 +1,6 @@
 class Solution {
     public int minInsertions(String s) {
         int n = s.length();
-        StringBuilder sb = new StringBuilder(s);
-        String s2 = sb.reverse().toString();
         return n-longestPalindromeSubseq(s);
     }
 
