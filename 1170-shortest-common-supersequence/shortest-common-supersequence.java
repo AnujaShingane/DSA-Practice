@@ -16,21 +16,20 @@ class Solution {
             }
         }
 
-        int i = n , j = m;
+        int i = n;
+        int j = m;
         StringBuilder sb = new StringBuilder();
         while(i>0 && j>0){
-            if(str1.charAt(i-1) == str2.charAt(j-1)){
+            if(str1.charAt(i-1)==str2.charAt(j-1)){
                 sb.append(str1.charAt(i-1));
                 i--;
                 j--;
+            }else if(dp[i-1][j]>dp[i][j-1]){
+                sb.append(str1.charAt(i-1));
+                i--;
             }else{
-                if(dp[i-1][j] > dp[i][j-1]){
-                    sb.append(str1.charAt(i-1));
-                    i--;
-                }else{
-                    sb.append(str2.charAt(j-1));
-                    j--;
-                }
+                sb.append(str2.charAt(j-1));
+                j--;
             }
         }
 
