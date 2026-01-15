@@ -13,7 +13,7 @@ class Solution {
                 maxlen = Math.max(maxlen,j-i);
                 while(map.get(nums[j])>k){
                     map.put(nums[i],map.get(nums[i])-1);
-                    if(map.get(nums[i]) == 0)map.remove(nums[i]);
+                    //if(map.get(nums[i]) == 0)map.remove(nums[i]);
                     i++;
                 }
             }
@@ -21,7 +21,7 @@ class Solution {
             j++;
         }
 
-         maxlen = Math.max(maxlen, j - i);
+        maxlen = Math.max(maxlen, j - i);
 
         return maxlen;
     }
