@@ -10,14 +10,16 @@ class Solution {
         max = sum;   // store sum, not average
 
         int i = 0;   // left pointer
-        int j = k;   // right pointer
+        int j = k-1;   // right pointer
 
-        while (j < nums.length) {
+        while (j < nums.length-1) {
             sum -= nums[i];   // remove left
             i++;
 
-            sum += nums[j];   // add right
-            j++;
+            if(j!=nums.length-1){
+                j++;
+                sum += nums[j];
+            }   
 
             max = Math.max(max, sum);
         }
