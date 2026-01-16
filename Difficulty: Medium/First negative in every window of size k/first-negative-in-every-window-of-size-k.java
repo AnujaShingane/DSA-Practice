@@ -4,12 +4,10 @@ class Solution {
         List<Integer> list = new ArrayList<>();
         Queue<Integer> q = new LinkedList<>();
         
-        for(int i = 0; i < n ; i++){
+        for(int i = 0 ; i < n ; i++){
             if(arr[i]<0)q.add(i);
             
-            //start when window become size k
             if(i>=k-1){
-                //if out of range remove
                 while(!q.isEmpty() && q.peek()<i-k+1){
                     q.poll();
                 }
@@ -18,6 +16,7 @@ class Solution {
                 else list.add(arr[q.peek()]);
             }
         }
+        
         return list;
     }
 }
