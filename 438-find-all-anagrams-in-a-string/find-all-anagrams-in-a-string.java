@@ -1,37 +1,27 @@
 class Solution {
     public List<Integer> findAnagrams(String s, String p) {
-        int n = s.length();
-        int pl=p.length();
-        int i = 0;
-        int j = pl-1;
-        List<Integer> res = new ArrayList<>();
-        
-        while(j<n){
-            String str = s.substring(i,j+1);
-            if(isAnagram(str,p)){
-                res.add(i);
-            }
-            i++;
-            j++;
+        List<Integer> list = new ArrayList<>();
+
+        for(int i = 0 ; i <= s.length()-p.length() ; i++){
+            String s1 = s.substring(i,i+p.length());
+            if(isAnagram(s1,p))list.add(i);
         }
-        return res;
+        
+        return list;
     }
 
-    public boolean isAnagram(String str, String p) {
-        int n = str.length();
-        if(str.length()!=p.length()){
-            return false;
-        }
-
+    public boolean isAnagram(String s, String t) {
+        if(s.length() != t.length()) return false;
         int[] arr = new int[26];
+
         Arrays.fill(arr,0);
-        for(int i = 0 ; i < n ; i++){
-            arr[str.charAt(i)-'a']++;
-            arr[p.charAt(i)-'a']--;
+        for(int i = 0 ; i < s.length() ; i++){
+            arr[s.charAt(i) - 'a']++;
+            arr[t.charAt(i) - 'a']--;
         }
 
-        for(int num:arr){
-            if(num!=0)return false;
+        for(int i = 0 ; i < arr.length ; i++){
+            if(arr[i] != 0)return false;
         }
         return true;
     }
