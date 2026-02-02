@@ -10,7 +10,7 @@ class Solution {
         int ans = -1;
 
         while (low <= high) {
-            int mid = low + (high - low) / 2;
+            int mid = (low + high) / 2;
             long findHrs = findHrs(piles, mid);
 
             if (findHrs <= h) {
