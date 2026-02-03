@@ -25,12 +25,13 @@ class Solution {
 
     public int findDays(int[] weights,int x){
         int n = weights.length;
+        int cnt = 0;
+        int sum = 0;
         int i = 0;
-        int cnt =0;
-        int sum=0;
 
         while(i<n){
             sum+=weights[i];
+
             if(sum>x){
                 cnt++;
                 sum=weights[i];
