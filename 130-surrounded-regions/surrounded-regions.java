@@ -3,66 +3,49 @@ class Solution {
         int n = board.length;
         int m = board[0].length;
 
-        boolean[][] vis = new boolean[n][m];
 
-        //hori boundries
+        //2
         for(int i = 0 ; i < m ; i++){
-            if(board[0][i] == 'O'){
-                vis[0][i] = true;
-                bfs(n,m,0,i,vis,board); // here mark all vis
+            if(board[0][i]=='O'){
+                dfs(board,0,i);
             }
-
-            if(board[n-1][i] == 'O'){
-                vis[n-1][i] = true;
-                bfs(n,m,n-1,i,vis,board); // here mark all vis
+            if(board[n-1][i]=='O'){
+                dfs(board,n-1,i);
             }
         }
 
-        //vert boundries
-        for(int i = 0 ; i < n ; i++){
-            if(board[i][0] == 'O'){
-                vis[i][0] = true;
-                bfs(n,m,i,0,vis,board); // here mark all vis
+        for(int j = 0 ; j < n ; j++){
+            if(board[j][0]=='O'){
+                dfs(board,j,0);
             }
-
-            if(board[i][m-1] == 'O'){
-                vis[i][m-1] = true;
-                bfs(n,m,i,m-1,vis,board); // here mark all vis
+            if(board[j][m-1]=='O'){
+                dfs(board,j,m-1);
             }
         }
 
-        for(int i = 0 ; i < n ; i++){
-            for(int j = 0 ; j < m ; j++){
-                if(board[i][j] =='O' && !vis[i][j]){
-                    board[i][j] = 'X';
-                }
+
+        for(int a = 0 ; a < n ; a++){
+            for(int b = 0 ; b < m ; b++){
+                if(board[a][b]=='O')board[a][b]='X';
+                if(board[a][b]=='2')board[a][b]='O';
             }
         }
     }
 
-    public void bfs(int n, int m, int i, int j, boolean[][] vis, char[][] board) {
-    int[] delr = {-1, 0, 1, 0};
-    int[] delc = {0, 1, 0, -1};
-
-    Queue<int[]> q = new LinkedList<>();
-    q.add(new int[]{i, j});
-
-    while (!q.isEmpty()) {
-        int[] cur = q.poll();
-        int row = cur[0];
-        int col = cur[1];
-
-        for (int r = 0; r < 4; r++) {
-            int nr = row + delr[r];
-            int nc = col + delc[r];
-
-            if (nr >= 0 && nr < n && nc >= 0 && nc < m &&
-                board[nr][nc] == 'O' && !vis[nr][nc]) {
-
-                vis[nr][nc] = true;
-                q.add(new int[]{nr, nc});
-            }
+    public void dfs(char[][] board , int r , int c){
+        if(r<0 || c<0 || r>=board.length || c>=board[0].length){
+            return;
         }
+
+        if(board[r][c]=='X' || board[r][c]=='2'){
+            return;
+        }
+
+        board[r][c]='2';
+
+        dfs(board,r+1,c);
+        dfs(board,r,c+1);
+        dfs(board,r-1,c);
+        dfs(board,r,c-1);
     }
-}
 }
