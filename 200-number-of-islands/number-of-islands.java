@@ -4,30 +4,32 @@ class Solution {
         int m = grid[0].length;
         int cnt = 0;
 
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (grid[i][j] == '1') {
+        for(int i = 0 ; i < n ; i++){
+            for(int j = 0 ; j < m ; j++){
+                if(grid[i][j]=='1'){
                     cnt++;
-                    dfs(i, j, grid);
+                    dfs(grid,i,j);
                 }
             }
         }
+
         return cnt;
     }
 
-    public void dfs(int i, int j, char[][] grid) {
-        int n = grid.length;
-        int m = grid[0].length;
-
-        if (i < 0 || j < 0 || i >= n || j >= m || grid[i][j] == '0') {
+    public void dfs(char[][] grid, int r , int c){
+        if(r<0 || c<0 || r>=grid.length || c>=grid[0].length){
             return;
         }
 
-        grid[i][j] = '0'; // mark visited
+        if(grid[r][c]=='0' || grid[r][c]=='2'){
+            return;
+        }
 
-        dfs(i - 1, j, grid); // up
-        dfs(i + 1, j, grid); // down
-        dfs(i, j - 1, grid); // left
-        dfs(i, j + 1, grid); // right
+        grid[r][c]='2';
+
+        dfs(grid,r+1,c);
+        dfs(grid,r,c+1);
+        dfs(grid,r-1,c);
+        dfs(grid,r,c-1);
     }
 }
