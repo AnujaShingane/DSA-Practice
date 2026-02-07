@@ -1,57 +1,41 @@
-class Pair{
-    int node;
-    int parent;
-    
-    Pair(int node,int parent){
-        this.node = node;
-        this.parent = parent;
-    }
-}
-
 class Solution {
     public boolean isCycle(int V, int[][] edges) {
-        int n = V;
-        ArrayList<ArrayList<Integer>> adjlist = new ArrayList<>();
-        for(int i = 0 ; i < n ; i++) adjlist.add(new ArrayList<>());
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        for(int i = 0 ; i < V ; i++){
+            adj.add(new ArrayList<>());
+        }
+        adj = adjList(V,edges,adj);
         
-        for(int[] arr : edges){
-            adjlist.get(arr[0]).add(arr[1]);
-            adjlist.get(arr[1]).add(arr[0]);
+        int[] vis = new int[V];
+        
+        for(int i = 0 ; i < V ; i++){
+            if(vis[i]==0){
+                if(dfs(i,-1,vis,adj)==true)return true;
+            }
         }
         
-        boolean[] vis = new boolean[n];
-
-        // 🔑 check all components
-        for(int i = 0 ; i < n ; i++){
-            if(!vis[i]){
-                Queue<Pair> q = new LinkedList<>();
-                q.add(new Pair(i,-1));
-                vis[i] = true;
-
-                if(iscycle(adjlist, vis, q)) return true;
+        return false;
+    }
+    
+    public boolean dfs(int node,int parent ,int[] vis ,ArrayList<ArrayList<Integer>> adj) {
+        vis[node]=1;
+        
+        for(int ele : adj.get(node)){
+            if(vis[ele]==0){
+                if(dfs(ele,node,vis,adj))return true;
+            }else{
+                if(ele!=parent)return true;
             }
         }
         return false;
     }
     
-    public boolean iscycle(ArrayList<ArrayList<Integer>> adj,
-                           boolean[] vis,
-                           Queue<Pair> q){
-        while(!q.isEmpty()){
-            Pair rem = q.poll();
-            int node = rem.node;
-            int parent = rem.parent;
-            
-            for(int adjnode : adj.get(node)){
-                if(vis[adjnode]){
-                    if(parent != adjnode) return true;
-                }
-                else{
-                    q.add(new Pair(adjnode, node));
-                    vis[adjnode] = true;
-                }
-            }
+    public ArrayList<ArrayList<Integer>> adjList(int n, int[][] edges,ArrayList<ArrayList<Integer>> adj) {
+        for(int[] arr : edges){
+            adj.get(arr[0]).add(arr[1]);
+            adj.get(arr[1]).add(arr[0]);
         }
-        return false;
+
+        return adj;
     }
 }
