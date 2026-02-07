@@ -1,45 +1,42 @@
 class Solution {
     public boolean isCyclic(int V, int[][] edges) {
-        ArrayList<Integer> topoSort = topoSort(V,edges);
-        if(topoSort.size()!=V)return true;
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        for(int i = 0 ; i < V ; i++){
+            adj.add(new ArrayList<>());
+        }
+        adj = adjList(V,edges,adj);
+        
+        int[] vis = new int[V];
+        int[] pathVis = new int[V];
+        
+        for(int i = 0 ; i < V ; i++){
+            if(dfs(i,adj,vis,pathVis))return true;
+        }
         return false;
     }
     
-    public ArrayList<Integer> topoSort(int V, int[][] edges) {
-        int[] indegree = new int[V];
-        Queue<Integer> q = new LinkedList<>();
-        ArrayList<ArrayList<Integer>> adj = adj(V,edges);
+    public boolean dfs(int node, ArrayList<ArrayList<Integer>> adj,int[] vis , int[] pathVis) {
+        vis[node]=1;
+        pathVis[node]=1;
         
-        for(List<Integer> list : adj){
-            for(int ele : list){
-                indegree[ele]++;
+        //traverse for all node
+        for(int ele : adj.get(node)){
+            if(vis[ele]==0){
+                if(dfs(ele,adj,vis,pathVis))return true;
+            }else{
+                if(pathVis[ele]==1)return true;
             }
         }
         
-        for(int i = 0 ; i < V ; i++){
-            if(indegree[i]==0)q.add(i);
-        }
-        
-        ArrayList<Integer> ans = new ArrayList<>();
-        while(!q.isEmpty()){
-            int ele = q.poll();
-            ans.add(ele);
-            
-            for(int ele2 : adj.get(ele)){
-                indegree[ele2]--;
-                if(indegree[ele2]==0)q.add(ele2);
-            }
-        }
-        return ans;
+        pathVis[node]=0; //backtrack // making 0 while returning
+        return false;
     }
     
-    public ArrayList<ArrayList<Integer>> adj(int V,int[][] edges){
-        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
-        for(int i=0 ; i < V ; i++)adj.add(new ArrayList<>());
-        
+    public ArrayList<ArrayList<Integer>> adjList(int n, int[][] edges,ArrayList<ArrayList<Integer>> adj) {
         for(int[] arr : edges){
             adj.get(arr[0]).add(arr[1]);
         }
+
         return adj;
     }
 }
