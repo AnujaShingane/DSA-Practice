@@ -29,12 +29,12 @@ class Solution {
             if(root.val==targetSum){
                 res.add(new ArrayList<>(path));
             }
+        }else{
+            int remaining = targetSum-root.val;
+            hasPathSum(root.left,remaining,path,res);
+            hasPathSum(root.right,remaining,path,res);
         }
-
-        int remaining = targetSum-root.val;
-        hasPathSum(root.left,remaining,path,res);
-        hasPathSum(root.right,remaining,path,res);
         
-        path.remove(path.size()-1);
+        path.remove(path.size()-1); //backtrack
     }
 }
