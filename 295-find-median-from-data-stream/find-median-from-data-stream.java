@@ -1,28 +1,31 @@
 class MedianFinder {
-    PriorityQueue<Integer> left ;
-    PriorityQueue<Integer> right ;
-    
+    PriorityQueue<Integer> maxLeft;
+    PriorityQueue<Integer> minRight;
+    double median = 0;
+
     public MedianFinder() {
-        left = new PriorityQueue<>(Collections.reverseOrder());
-        right = new PriorityQueue<>();
+        maxLeft = new PriorityQueue<>(Collections.reverseOrder());
+        minRight = new PriorityQueue<>();
     }
     
     public void addNum(int num) {
-        if(left.size() == right.size()){ //coming oddth ele
-            right.add(num);
-            left.add(right.remove());
-        }else{ // eventh ele coming
-            left.add(num);
-            right.add(left.remove());
+        if(maxLeft.size()==minRight.size()){  //oddth num
+            minRight.add(num);
+            maxLeft.add(minRight.remove());
+        }else{  //eventh num
+            maxLeft.add(num);
+            minRight.add(maxLeft.remove());
         }
     }
     
     public double findMedian() {
-        if(left.size() == right.size()){
-            return (left.peek() + right.peek())*1.0/2 ;
-        }else{
-            return left.peek() * 1.0;
+        if(maxLeft.size()==minRight.size()){  //even values
+            median = (maxLeft.peek()+minRight.peek())/2.0;
+        }else{  //odd values
+            median = maxLeft.peek()*1.0;
         }
+        
+        return median;
     }
 }
 
