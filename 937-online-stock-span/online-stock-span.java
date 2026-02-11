@@ -1,38 +1,37 @@
 class Pair{
     int val;
-    int index;
+    int ind;
 
-    Pair(int val , int index){
+    Pair(int val, int ind){
         this.val = val;
-        this.index = index;
+        this.ind = ind;
     }
 }
 
 class StockSpanner {
     Stack<Pair> st;
-    int day;
+    int curidx = 0;
+    int idx = 0;
+    int ans = -1;
 
     public StockSpanner() {
-        st = new Stack<>();
-        day = 0;
+        st = new Stack<>();    
     }
     
     public int next(int price) {
-        day++;
-
-        while(!st.isEmpty() && st.peek().val <= price){
+        curidx++;
+        while(!st.isEmpty() && st.peek().val<=price){
             st.pop();
         }
 
-        int span;
         if(st.isEmpty()){
-            span = day;
+            ans = curidx;
         }else{
-            span = day - st.peek().index;
+            ans = curidx-st.peek().ind;
         }
 
-        st.push(new Pair(price,day));
-        return span;
+        st.push(new Pair(price,curidx));
+        return ans;
     }
 }
 
