@@ -1,10 +1,10 @@
 class Pair{
     int val;
-    int index;
+    int idx;
 
-    Pair(int val , int index){
+    Pair(int val, int idx){
         this.val = val;
-        this.index = index;
+        this.idx = idx;
     }
 }
 
@@ -14,20 +14,23 @@ class Solution {
         int[] res = new int[n];
         Stack<Pair> st = new Stack<>();
 
-        for(int i = n-1 ; i >= 0 ; i--){
-            if(st.isEmpty()){
-                res[i] = 0;
-            }else{
-                while(!st.isEmpty() && st.peek().val <= temperatures[i]){
-                    st.pop();
-                    if(st.isEmpty())res[i] = 0;
-                }
-                if(!st.isEmpty() && st.peek().val > temperatures[i]){
-                    res[i] = st.peek().index-i;
-                }
+        for(int i = n-1 ; i>=0 ; i--){
+            int curval = temperatures[i];
+            int curidx = i;
+
+            while(!st.isEmpty() && st.peek().val<=curval){
+                st.pop();
             }
-            st.push(new Pair(temperatures[i],i));
+
+            if(st.isEmpty()){
+                res[i]=0;
+            }else{
+                res[i]=st.peek().idx-curidx;
+            }
+
+            st.push(new Pair(curval,curidx));
         }
+
         return res;
     }
 }
