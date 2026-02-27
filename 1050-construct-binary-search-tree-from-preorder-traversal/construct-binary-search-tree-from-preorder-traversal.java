@@ -19,7 +19,7 @@ class Solution {
     }
 
     public TreeNode bst(int[] preorder, int bound , int[] index){
-        if(index[0] == preorder.length || preorder[index[0]]>bound)return null;
+        if(index[0]==preorder.length || preorder[index[0]]>bound)return null;
         TreeNode root = new TreeNode(preorder[index[0]++]);
 
         root.left = bst(preorder,root.val,index);
