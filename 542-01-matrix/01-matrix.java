@@ -1,39 +1,51 @@
+class Pair{
+    int i;
+    int j;
+    int dist;
+
+    Pair(int i,int j,int dist){
+        this.i = i;
+        this.j = j;
+        this.dist = dist;
+    }
+}
+
 class Solution {
     public int[][] updateMatrix(int[][] mat) {
         int n = mat.length;
         int m = mat[0].length;
-
-        int[][] ans = new int[n][m];
+        Queue<Pair> q = new LinkedList<>();
         boolean[][] vis = new boolean[n][m];
+        int[][] ans = new int[n][m];
 
-        Queue<int[]> q = new LinkedList<>();
         for(int i = 0 ; i < n ; i++){
             for(int j = 0 ; j < m ; j++){
                 if(mat[i][j]==0){
+                    q.add(new Pair(i,j,0));
                     ans[i][j]=0;
-                    q.add(new int[]{i,j,0});
                     vis[i][j]=true;
                 }
             }
         }
 
-        int[][] dir = {{0,-1},{-1,0},{0,1},{1,0}};
+        int[] di = {-1,0,1,0};
+        int[] dj = {0,1,0,-1};
 
         while(!q.isEmpty()){
-            int[] arr = q.poll();
-            int r = arr[0];
-            int c = arr[1];
-            int dist = arr[2];
+            Pair p = q.poll();
+            int i = p.i;
+            int j = p.j;
+            int dist = p.dist;
 
-            for(int[] d : dir){
-                int nr = r + d[0];
-                int nc = c + d[1];
+            for(int z = 0 ; z < 4; z++){
+                int newi = i+di[z];
+                int newj = j+dj[z];
 
-                if(nr<0 || nc<0 || nr>=n || nc>=m || vis[nr][nc])continue;
-
-                vis[nr][nc]=true;
-                ans[nr][nc]=dist+1;
-                q.add(new int[]{nr,nc,dist+1});
+                if(newi>=0 && newi<n && newj>=0 && newj<m && !vis[newi][newj] && mat[newi][newj]==1){
+                    vis[newi][newj]=true;
+                    q.add(new Pair(newi,newj,dist+1));
+                    ans[newi][newj] = dist+1;
+                }
             }
         }
 
