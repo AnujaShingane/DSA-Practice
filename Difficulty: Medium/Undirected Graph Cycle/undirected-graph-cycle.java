@@ -1,53 +1,33 @@
-class Pair{
-    int node;
-    int parent;
-    
-    Pair(int node,int parent){
-        this.node = node;
-        this.parent = parent;
-    }
-}
-
 class Solution {
     public boolean isCycle(int V, int[][] edges) {
-        ArrayList<ArrayList<Integer>> adj = adj(V,edges);
+        ArrayList<ArrayList<Integer>> adj = adjecencyList(V, edges);
         boolean[] vis = new boolean[V];
         
         for(int i = 0 ; i < V ; i++){
             if(!vis[i]){
-                if(bfs(i,adj,vis))return true;
+                if(dfs(i,-1,adj,vis))return true;
             }
         }
         
         return false;
     }
     
-    public boolean bfs(int i,ArrayList<ArrayList<Integer>> adj,boolean[] vis){
-        Queue<Pair> q = new LinkedList<>();
-        boolean cycle = false;
-        q.offer(new Pair(i,-1));
-        vis[i]=true;
+    
+    public boolean dfs(int node,int parent,ArrayList<ArrayList<Integer>> adj,boolean[] vis){
+        vis[node]=true;
         
-        while(!q.isEmpty()){
-            Pair p = q.poll();
-            int node = p.node;
-            int parent = p.parent;
-            
-            for(int ele : adj.get(node)){
-                if(vis[ele] && ele != parent)cycle=true;
-                
-                if(!vis[ele]){
-                    vis[ele]=true;
-                    q.add(new Pair(ele,node));
-                }
+        for(int ele : adj.get(node)){
+            if(!vis[ele]){
+                if(dfs(ele,node,adj,vis))return true;
+            }else{
+                if(parent != ele)return true;
             }
         }
         
-        return cycle;
+        return false;
     }
     
-    
-    public ArrayList<ArrayList<Integer>> adj(int V , int[][] edges){
+    public ArrayList<ArrayList<Integer>> adjecencyList(int V , int[][] edges){
         ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
         for(int i = 0 ; i < V ; i++){
             adj.add(new ArrayList<>());
