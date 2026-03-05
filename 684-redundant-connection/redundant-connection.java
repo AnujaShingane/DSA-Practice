@@ -1,7 +1,4 @@
 class Solution {
-
-    List<Integer> cycle = new ArrayList<>();
-
     public int[] findRedundantConnection(int[][] edges) {
         int V = edges.length;
         ArrayList<ArrayList<Integer>> adj = adjacencyList(V, edges);
@@ -20,13 +17,14 @@ class Solution {
     }
 
     public List<Integer> findCycle(int V, ArrayList<ArrayList<Integer>> adj) {
+        List<Integer> cycle = new ArrayList<>();
         boolean[] vis = new boolean[V+1];
         int[] parent = new int[V+1];
         Arrays.fill(parent, -1);
 
         for(int i = 1; i <= V; i++){
             if(!vis[i]){
-                if(dfs(i, -1, vis, parent, adj)){
+                if(dfs(i, -1, vis, parent, adj,cycle)){
                     return cycle;
                 }
             }
@@ -36,13 +34,13 @@ class Solution {
     }
 
     public boolean dfs(int node, int par, boolean[] vis, int[] parent,
-                       ArrayList<ArrayList<Integer>> adj){
+                       ArrayList<ArrayList<Integer>> adj,List<Integer> cycle){
 
         vis[node] = true;
         for(int ele : adj.get(node)){
             if(!vis[ele]){
                 parent[ele] = node;
-                if(dfs(ele, node, vis, parent, adj))return true;
+                if(dfs(ele, node, vis, parent, adj,cycle))return true;
             }
             else if(ele != par){
                 cycle.add(ele);
@@ -68,7 +66,6 @@ class Solution {
         }
 
         for(int[] arr : edges){
-
             adj.get(arr[0]).add(arr[1]);
             adj.get(arr[1]).add(arr[0]);
         }
