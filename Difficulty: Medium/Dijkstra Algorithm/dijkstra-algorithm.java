@@ -1,45 +1,63 @@
+class Pair{
+    int dist;
+    int node;
+    
+    Pair(int dist, int node){
+        this.node = node;
+        this.dist = dist;
+    }
+}
+
 class Solution {
     public int[] dijkstra(int V, int[][] edges, int src) {
-        PriorityQueue<int[]> pq = new PriorityQueue<>(
-            (a,b) -> a[0]-b[0]
+        PriorityQueue<Pair> pq = new PriorityQueue<>(
+            (a,b) -> a.dist-b.dist
         );
+        
         int[] dist = new int[V];
+        for(int i = 0 ; i < V ; i++){
+            dist[i]=(int)(1e9);
+        }
+        dist[src]=0;
+        pq.add(new Pair(0,src));
         
-        ArrayList<ArrayList<int[]>> adj = new ArrayList<>();
-        adj = adj(V ,edges);
+        ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
+        for(int i = 0 ; i < V ; i++){
+            adj.add(new ArrayList<>());
+        }
         
-        for(int i = 0 ;i < V ; i++)dist[i]=Integer.MAX_VALUE;
-        dist[src] = 0;
-        pq.add(new int[]{0,src});
+        for(int[] arr : edges){
+            int u = arr[0];
+            int v = arr[1];
+            int wt = arr[2];
+            
+            adj.get(u).add(new Pair(wt,v));
+            adj.get(v).add(new Pair(wt,u));
+        }
         
         while(!pq.isEmpty()){
-            int[] remarr = pq.poll();
-            int remdist = remarr[0];
-            int remnode = remarr[1];
+            Pair p = pq.poll();
+            int dis = p.dist;
+            int n = p.node;
             
-            for(int[] arradj : adj.get(remnode)){
-                int adjnode = arradj[0];
-                int adjdist = arradj[1];
+            for(Pair ele : adj.get(n)){
+                int adjNodeDist = ele.dist;
+                int adjNode = ele.node;
                 
-                if(adjdist+remdist < dist[adjnode]){
-                    dist[adjnode]=adjdist+remdist;
-                    pq.add(new int[]{adjdist+remdist,adjnode});
+                int finalDist = adjNodeDist + dis;
+                if(finalDist<dist[adjNode]){
+                    dist[adjNode]=finalDist;
+                    pq.add(new Pair(finalDist,adjNode));
                 }
             }
         }
         
-        return dist;
-    }
-    
-    public ArrayList<ArrayList<int[]>> adj(int V , int[][] edges){
-        ArrayList<ArrayList<int[]>> adj = new ArrayList<>();
-        for(int i = 0 ; i < V ; i++)adj.add(new ArrayList<>());
-        
-        for(int[] arr : edges){
-            adj.get(arr[0]).add(new int[]{arr[1],arr[2]});
-            adj.get(arr[1]).add(new int[]{arr[0],arr[2]});
+        for(int i = 0 ; i < V ; i++){
+            if(dist[i]==(int)(1e9)){
+                dist[i] = -1;
+            }
         }
         
-        return adj;
+        return dist;
     }
 }
