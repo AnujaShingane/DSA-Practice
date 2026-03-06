@@ -1,48 +1,38 @@
 class Solution {
     public List<Integer> eventualSafeNodes(int[][] graph) {
-        int V = graph.length;
-        ArrayList<Integer> topoSort = topoSort(V,graph);
-        Collections.sort(topoSort);
-        return topoSort;
-    }
-
-    public ArrayList<Integer> topoSort(int V, int[][] edges) {
-        int[] indegree = new int[V];
+        int n = graph.length;
+        int m = graph[0].length;
+        int[] outdegree = new int[n];
         Queue<Integer> q = new LinkedList<>();
-        ArrayList<ArrayList<Integer>> adj = adj(V,edges);
-        
-        for(List<Integer> list : adj){
-            for(int ele : list){
-                indegree[ele]++;
-            }
+        for(int i = 0 ; i < n ; i++){
+            outdegree[i]=graph[i].length;
+            if(outdegree[i]==0)q.add(i);
         }
-        
-        for(int i = 0 ; i < V ; i++){
-            if(indegree[i]==0)q.add(i);
-        }
-        
-        ArrayList<Integer> ans = new ArrayList<>();
-        while(!q.isEmpty()){
-            int ele = q.poll();
-            ans.add(ele);
-            
-            for(int ele2 : adj.get(ele)){
-                indegree[ele2]--;
-                if(indegree[ele2]==0)q.add(ele2);
-            }
-        }
-        return ans;
-    }
-    
-    public ArrayList<ArrayList<Integer>> adj(int V, int[][] edges) {
+
         ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
-        for (int i = 0; i < V; i++) adj.add(new ArrayList<>());
-        
-        for (int i = 0; i < V; i++) {
-            for (int v : edges[i]) {
-                adj.get(v).add(i); // reverse edge
+        for(int i = 0 ; i < n ;i++){
+            adj.add(new ArrayList<>());
+        }
+
+        for(int i = 0 ; i < n ; i++){
+            int[] arr = graph[i];
+            for(int ele : arr){
+                adj.get(ele).add(i);
             }
         }
-        return adj;
+
+        List<Integer> ans = new ArrayList<>();
+        while(!q.isEmpty()){
+            int node = q.poll();
+            ans.add(node);
+
+            for(int ele : adj.get(node)){
+                outdegree[ele]--;
+                if(outdegree[ele]==0)q.offer(ele);
+            }
+        }
+
+        Collections.sort(ans);
+        return ans;
     }
 }
