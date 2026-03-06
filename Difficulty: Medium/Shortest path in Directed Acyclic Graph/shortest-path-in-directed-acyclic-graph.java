@@ -1,70 +1,73 @@
 class Pair{
-    int nod;
+    int node;
     int wt;
     
-    Pair(int nod, int wt){
-        this.nod = nod;
-        this.wt = wt;
+    Pair(int node,int wt){
+        this.node = node;
+        this.wt=wt;
     }
 }
 
 class Solution {
     public int[] shortestPath(int V, int E, int[][] edges) {
+        int n1 = edges.length;
         ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
         for(int i = 0 ; i < V ; i++){
             adj.add(new ArrayList<>());
         }
-        
-        for(int[] arr : edges){
-            adj.get(arr[0]).add(new Pair(arr[1],arr[2]));
+        for(int i = 0 ; i < n1 ; i++){
+            int s = edges[i][0];
+            int e = edges[i][1];
+            int wt = edges[i][2];
+            adj.get(s).add(new Pair(e,wt));
         }
         
-        
-        //step1
-        boolean[] vis = new boolean[V];
         Stack<Integer> st = new Stack<>();
+        boolean[] vis = new boolean[V];
         for(int i = 0 ; i < V ; i++){
             if(!vis[i]){
-                dfs(i,vis,st,adj);
+                dfs(i,st,vis,adj);
             }
         }
         
-        
         int[] dist = new int[V];
-        Arrays.fill(dist,Integer.MAX_VALUE);
+        Arrays.fill(dist,(int)(1e9));
         dist[0]=0;
         
-        
-        //step2
         while(!st.isEmpty()){
-            int stnode = st.pop();
-            int dis = dist[stnode];
+            int node = st.pop();
+            int dis = dist[node];
             
-            if(dist[stnode] != Integer.MAX_VALUE){
-                for(Pair p : adj.get(stnode)){
-                    int n = p.nod;
-                    int wt = p.wt;
-                    
-                    dist[n]=Math.min(dist[n],dis+wt);
+            for(Pair p : adj.get(node)){
+                int n = p.node;
+                int d = p.wt;
+                
+                int finalDist = dis + d;
+                if(finalDist < dist[n]){
+                    dist[n] = finalDist;
                 }
             }
         }
         
-        for(int i = 0 ; i < V ; i++){
-            if(dist[i]==Integer.MAX_VALUE)dist[i]=-1;
+        
+        for(int i = 0 ; i < dist.length ; i++){
+            if(dist[i]==(int)(1e9)){
+                dist[i]=-1;
+            }
         }
         
         return dist;
     }
     
-    public void dfs(int node, boolean[] vis , Stack<Integer> st, ArrayList<ArrayList<Pair>> adj ){
+    public void dfs(int node,Stack<Integer> st,boolean[] vis,ArrayList<ArrayList<Pair>> adj){
         vis[node]=true;
         
-        for(Pair p : adj.get(node)){
-            int n = p.nod;
-            int wt = p.wt;
+        for(Pair elePair : adj.get(node)){
+            int ele = elePair.node;
             
-            if(!vis[n])dfs(n,vis,st,adj);
+            if(!vis[ele]){
+                dfs(ele,st,vis,adj);
+            }
         }
         
         st.push(node);
