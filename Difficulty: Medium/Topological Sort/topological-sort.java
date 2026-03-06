@@ -1,33 +1,30 @@
 class Solution {
     public ArrayList<Integer> topoSort(int V, int[][] edges) {
+        int n = edges.length;
+        Queue<Integer> q = new LinkedList<>();
+        int[] indegree = new int[V];
+        Arrays.fill(indegree,0);
+        for(int i = 0 ; i < n ; i++){
+            indegree[edges[i][1]]++;
+        }
+        ArrayList<Integer> ans = new ArrayList<>();
         ArrayList<ArrayList<Integer>> adj = adjecencyList(V,edges);
-        boolean[] vis = new boolean[V];
-        Stack<Integer> st = new Stack<>();
         
         for(int i = 0 ; i < V ; i++){
-            if(!vis[i]){
-                dfs(i,vis,adj,st);
-            }
+            if(indegree[i]==0)q.add(i);
         }
         
-        ArrayList<Integer> ans = new ArrayList<>();
-        while(!st.isEmpty()){
-            ans.add(st.pop());
+        while(!q.isEmpty()){
+            int node = q.poll();
+            ans.add(node);
+            
+            for(int ele : adj.get(node)){
+                indegree[ele]--;
+                if(indegree[ele]==0)q.add(ele);
+            }
         }
         
         return ans;
-    }
-    
-    public void dfs(int node,boolean[] vis,ArrayList<ArrayList<Integer>> adj,Stack<Integer> st){
-        vis[node]=true;
-        
-        for(int ele : adj.get(node)){
-            if(!vis[ele]){
-                dfs(ele,vis,adj,st);
-            }
-        }
-        
-        st.push(node);
     }
     
     public ArrayList<ArrayList<Integer>> adjecencyList(int V,int[][] edges){
