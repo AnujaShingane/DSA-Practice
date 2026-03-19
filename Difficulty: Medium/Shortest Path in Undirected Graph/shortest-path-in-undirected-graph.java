@@ -10,26 +10,23 @@ class Pair{
 
 class Solution {
     public int[] shortestPath(int V, int[][] edges, int src) {
-        ArrayList<ArrayList<Integer>> adj = adjecencyList(V,edges);
         Queue<Pair> q = new LinkedList<>();
+        ArrayList<ArrayList<Integer>> adj = adjecencyList(V,edges);
         int[] dist = new int[V];
-        for(int i = 0 ; i < V ; i++){
-            dist[i] = (int)(1e9);
-        }
-        
+        Arrays.fill(dist,(int)(1e9));
         q.add(new Pair(src,0));
         dist[src]=0;
         
         while(!q.isEmpty()){
             Pair p = q.poll();
-            int n = p.node;
-            int dis = p.wt;
+            int node = p.node;
+            int wt = p.wt;
+            int newWt = wt+1;
             
-            for(int ele : adj.get(n)){
-                int finalDist = dis+1;
-                if(dist[ele]>finalDist){
-                    dist[ele] = finalDist;
-                    q.add(new Pair(ele,finalDist));
+            for(int ele : adj.get(node)){
+                if(dist[ele]>newWt){
+                    dist[ele] = Math.min(dist[ele],newWt);
+                    q.add(new Pair(ele,dist[ele]));   
                 }
             }
         }
