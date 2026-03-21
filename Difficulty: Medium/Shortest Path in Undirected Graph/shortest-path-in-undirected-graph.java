@@ -3,30 +3,32 @@ class Pair{
     int wt;
     
     Pair(int node,int wt){
-        this.node = node;
-        this.wt = wt;
+        this.node=node;
+        this.wt=wt;
     }
 }
 
 class Solution {
     public int[] shortestPath(int V, int[][] edges, int src) {
+        ArrayList<ArrayList<Integer>> adj = adjecencyList(V ,edges);
         Queue<Pair> q = new LinkedList<>();
-        ArrayList<ArrayList<Integer>> adj = adjecencyList(V,edges);
+        q.offer(new Pair(src,0));
+        boolean[] vis = new boolean[V];
+        vis[src]=true;
         int[] dist = new int[V];
         Arrays.fill(dist,(int)(1e9));
-        q.add(new Pair(src,0));
-        dist[src]=0;
+        dist[src] = 0;
         
         while(!q.isEmpty()){
             Pair p = q.poll();
             int node = p.node;
             int wt = p.wt;
-            int newWt = wt+1;
             
             for(int ele : adj.get(node)){
-                if(dist[ele]>newWt){
-                    dist[ele] = Math.min(dist[ele],newWt);
-                    q.add(new Pair(ele,dist[ele]));   
+                if(!vis[ele]){
+                    vis[ele]=true;
+                    dist[ele] = wt+1;
+                    q.add(new Pair(ele,dist[ele]));
                 }
             }
         }
