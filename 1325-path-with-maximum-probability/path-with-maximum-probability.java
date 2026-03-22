@@ -1,10 +1,10 @@
 class Pair{
     int node;
-    double prob;
+    Double prob;
 
-    Pair(int node, double prob){
-        this.node= node;
-        this.prob = prob;
+    Pair(int node,double prob){
+        this.node=node;
+        this.prob=prob;
     }
 }
 
@@ -12,31 +12,33 @@ class Solution {
     public double maxProbability(int n, int[][] edges, double[] succProb, int start_node, int end_node) {
         ArrayList<ArrayList<Pair>> adj = adjList(n,edges,succProb);
         PriorityQueue<Pair> pq = new PriorityQueue<>(
-            (a,b)->Double.compare(b.prob,a.prob)
+            (a,b) -> Double.compare(b.prob,a.prob)
         );
         boolean[] vis = new boolean[n];
         double[] prob = new double[n];
-        pq.add(new Pair(start_node,1.0));
         Arrays.fill(prob,0.0);
-        prob[start_node]=1.0;
+        pq.add(new Pair(start_node,1.0));
         vis[start_node]=true;
 
         while(!pq.isEmpty()){
-            Pair p1 = pq.poll();
-            int node = p1.node;
-            double p = p1.prob;
-            vis[node]=true;
+            Pair p = pq.poll();
+            int curr = p.node;
+            double pro = p.prob;
 
-            if(node == end_node)return p;
+            vis[curr]=true;
+            if(curr==end_node)return pro;
 
-            for(Pair p2 : adj.get(node)){
-                int nn = p2.node;
-                double pp = p2.prob;
-                double np = p*pp;
+            for(Pair pp : adj.get(curr)){
+                int ele = pp.node;
+                double probab = pp.prob;
 
-                if(prob[nn]<np){
-                    prob[nn]=np;
-                    pq.add(new Pair(nn,np));
+                double np = pro*probab;
+
+                if(vis[ele])continue;
+
+                if(prob[ele]<np){
+                    prob[ele]=np;
+                    pq.add(new Pair(ele,np));
                 }
             }
         }
