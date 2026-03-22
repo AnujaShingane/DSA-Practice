@@ -27,8 +27,6 @@ class Solution {
             int nod = p.node;
             long dis = p.dist;
 
-            //if (dis > dist[nod]) continue;
-
             for(Pair p1 : adj.get(nod)){
                 int n1 = p1.node;
                 long d = p1.dist;
