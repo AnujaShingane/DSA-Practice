@@ -1,5 +1,4 @@
 class Solution {
-    Boolean[][] dp;
     public boolean canPartition(int[] nums) {
         int n = nums.length;
         int sum = 0;
@@ -7,28 +6,27 @@ class Solution {
         for(int num : nums){
             sum += num;
         }
-        int target = sum/2;
-        dp = new Boolean[n][target+1];
-
-        // Step 1: If sum is odd → not possible
         if(sum % 2 != 0) return false;
+        int target = sum/2;
+        boolean[][] dp = new boolean[n][target+1];
 
-        // Step 2: Target = sum / 2
-        return f(n - 1, sum / 2, nums);
-    }
-    
-    public boolean f(int i, int target, int[] arr){
-        if(target == 0) return true;
-        if(i == 0) return arr[0] == target;
+        for(int i = 0 ; i < n ; i++){
+            dp[i][0]=true;
+        }
+        if(nums[0]<=target)dp[0][nums[0]]=true;
 
-        if(dp[i][target]!=null)return dp[i][target];
+        for(int i = 1 ; i < n ; i++){
+            for(int j = 1 ; j <= target ; j++){
+                boolean notTake = dp[i-1][j];
 
-        boolean notTake = f(i - 1, target, arr);
+                boolean take = false;
+                if(nums[i] <= j)
+                    take = dp[i-1][j-nums[i]];
 
-        boolean take = false;
-        if(arr[i] <= target)
-            take = f(i - 1, target - arr[i], arr);
+                dp[i][j] = take || notTake;
+            }
+        }
 
-        return dp[i][target] = take || notTake;
+        return dp[n-1][target];
     }
 }
