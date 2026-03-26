@@ -11,7 +11,7 @@ class Solution {
         for(int i = 0 ; i < n ; i++){
             if(nums[i]==0)zeros++;
             else ones++;
-            int diff = zeros-ones;
+            int diff = ones-zeros;
 
             if(map.containsKey(diff)){
                 len = i-map.get(diff);
