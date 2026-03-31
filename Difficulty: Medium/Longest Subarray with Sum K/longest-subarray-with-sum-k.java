@@ -4,9 +4,9 @@ class Solution {
     public int longestSubarray(int[] arr, int k) {
         int n = arr.length;
         HashMap<Integer,Integer> map = new HashMap<>();
+        int sum = 0;
         int len = 0;
         int maxlen = 0;
-        int sum = 0;
         
         for(int i = 0 ; i < n ; i++){
             sum += arr[i];
