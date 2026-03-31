@@ -1,38 +1,30 @@
-import java.util.*;
+// User function Template for Java
 
-public class Solution {
-    public static int longestSubarray(int[] arr, int k) {
-        HashMap<Integer, Integer> map = new HashMap<>();
+class Solution {
+    public int longestSubarray(int[] arr, int k) {
+        int n = arr.length;
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int len = 0;
+        int maxlen = 0;
         int sum = 0;
-        int maxLen = 0;
-
-        for (int i = 0; i < arr.length; i++) {
+        
+        for(int i = 0 ; i < n ; i++){
             sum += arr[i];
-
-            // Case 1: sum itself equals k
-            if (sum == k) {
-                maxLen = i + 1;
+            
+            if(sum==k){
+                maxlen = i+1;
             }
-
-            // Case 2: (sum - k) seen before
-            if (map.containsKey(sum - k)) {
-                int len = i - map.get(sum - k);
-                maxLen = Math.max(maxLen, len);
+            
+            if(map.containsKey(sum-k)){
+                len = i-map.get(sum-k);
+                maxlen = Math.max(len,maxlen);
             }
-
-            // Store prefix sum only first time
-            if (!map.containsKey(sum)) {
-                map.put(sum, i);
+            
+            if(!map.containsKey(sum)){
+                map.put(sum,i);
             }
         }
-
-        return maxLen;
-    }
-
-    public static void main(String[] args) {
-        int[] arr = {1, 2, 3, 1, 1, 1, 1, 4, 2, 3};
-        int k = 6;
-
-        System.out.println(longestSubarray(arr, k));
+        
+        return maxlen;
     }
 }
