@@ -1,34 +1,34 @@
+import java.util.*;
+
 class Solution {
     public int knapsack(int W, int val[], int wt[]) {
-        int n = val.length;
-        int m = wt.length;
+        int n = wt.length;
+        
         int[][] dp = new int[n][W+1];
-        for(int[] row : dp){
-            Arrays.fill(row,-1);
+        for(int[] arr : dp){
+            Arrays.fill(arr, -1);
         }
         
-        return func(n-1,W,val,wt,dp);
+        return func(W, wt, val, n-1, dp);
     }
     
-    public int func(int ind,int W, int val[], int wt[],int[][] dp) {
-        if(ind==0){
-            if(wt[0]<=W){
-                return val[0];
-            }else return 0;
+    public int func(int W, int[] wt, int[] val, int ind, int[][] dp) {
+        if(ind == 0){
+            if(wt[0] <= W) return val[0];
+            else return 0;
         }
         
-        if(W==0){
-            return 0;
+        if(W == 0) return 0;
+        
+        if(dp[ind][W] != -1) return dp[ind][W];
+        
+        int notTake = func(W, wt, val, ind-1, dp);
+        
+        int take = Integer.MIN_VALUE;
+        if(wt[ind] <= W){
+            take = val[ind] + func(W - wt[ind], wt, val, ind-1, dp);
         }
         
-        if(dp[ind][W] != -1)return dp[ind][W];
-        
-        int notPick = func(ind-1,W,val,wt,dp);
-        int pick = Integer.MIN_VALUE;
-        if(wt[ind]<=W){
-            pick = val[ind] + func(ind-1,W-wt[ind],val,wt,dp);
-        }
-        
-        return dp[ind][W] = Math.max(pick,notPick);
+        return dp[ind][W] = Math.max(take, notTake);
     }
 }
