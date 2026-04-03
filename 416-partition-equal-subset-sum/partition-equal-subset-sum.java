@@ -2,31 +2,26 @@ class Solution {
     public boolean canPartition(int[] nums) {
         int n = nums.length;
         int sum = 0;
-
-        for(int num : nums){
-            sum += num;
-        }
-        if(sum % 2 != 0) return false;
+        for(int ele : nums)sum+=ele;
+        if(sum%2!=0)return false;
         int target = sum/2;
-        boolean[][] dp = new boolean[n][target+1];
+        Boolean[][] dp = new Boolean[n][sum+1];
 
-        for(int i = 0 ; i < n ; i++){
-            dp[i][0]=true;
-        }
-        if(nums[0]<=target)dp[0][nums[0]]=true;
+        return func(n-1,nums,target,dp);
+    }
 
-        for(int i = 1 ; i < n ; i++){
-            for(int j = 1 ; j <= target ; j++){
-                boolean notTake = dp[i-1][j];
-
-                boolean take = false;
-                if(nums[i] <= j)
-                    take = dp[i-1][j-nums[i]];
-
-                dp[i][j] = take || notTake;
-            }
+    public boolean func(int ind,int[] nums,int target,Boolean[][] dp){
+        if(target==0)return true;
+        if(ind==0){
+            return nums[0] == target;
         }
 
-        return dp[n-1][target];
+        if(dp[ind][target]!=null)return dp[ind][target];
+
+        boolean nottake = func(ind-1,nums,target,dp);
+        boolean take = false;
+        if(nums[ind]<= target)take = func(ind-1,nums,target-nums[ind],dp);
+
+        return dp[ind][target] = take || nottake;
     }
 }
