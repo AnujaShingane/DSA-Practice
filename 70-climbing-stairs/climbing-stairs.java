@@ -1,20 +1,17 @@
 class Solution {
     public int climbStairs(int n) {
         int[] dp = new int[n+1];
-        Arrays.fill(dp,-1);
 
-        return func(n,dp);
-    }
+        dp[0]=1;
+        dp[1]=1;
 
-    public int func(int ind,int[] dp) {
-        if(ind == 0)return 1;
-        if(ind==1)return 1;
+        for(int i = 2 ; i <= n ; i++){
+            int left = dp[i-1];
+            int right = dp[i-2];
 
-        if(dp[ind]!= -1)return dp[ind];
+            dp[i] = left + right;
+        }
 
-        int left = func(ind-1,dp);
-        int right = func(ind-2,dp);
-
-        return dp[ind] = left + right;
+        return dp[n];
     }
 }
