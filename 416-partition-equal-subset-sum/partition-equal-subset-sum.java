@@ -7,9 +7,24 @@ class Solution {
         }
         if(sum%2!=0)return false;
         int target = sum/2;
-        Boolean[][] dp = new Boolean[n][target+1]; 
+        boolean[][] dp = new boolean[n][target+1];
 
-        return func(n-1,nums,target,dp);
+        for(int i = 0 ; i < n ; i++){
+            dp[i][0] = true;
+        }
+        if(nums[0]<=target)dp[0][nums[0]]=true;
+
+        for(int i = 1 ; i < n ; i++){
+            for(int t = 0 ; t <= target ; t++){
+                boolean take = false;
+                if(nums[i]<=t)take = dp[i-1][t-nums[i]];
+                boolean nottake = dp[i-1][t];
+
+                dp[i][t] = take || nottake;        
+            }
+        }
+
+        return dp[n-1][target];
     }
 
     public boolean func(int ind,int[] nums,int target,Boolean[][] dp) {
