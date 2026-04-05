@@ -1,24 +1,32 @@
+import java.util.*;
+
 class Solution {
     public int coinChange(int[] coins, int amount) {
         int n = coins.length;
-        int[] prev = new int[amount+1];
-        int[] cur = new int[amount+1];
+        int[][] dp = new int[n][amount+1];
+        
+        for(int[] row : dp){
+            Arrays.fill(row, -1);
+        }
+        
+        int ans = func(n-1, coins, amount, dp);
+        return ans >= (int)1e9 ? -1 : ans;
+    }
 
-        for(int amt = 0 ; amt <= amount ; amt++){
-            if(amt%coins[0]==0)prev[amt]=amt/coins[0];
-            else prev[amt]= (int)(1e9);
+    static int func(int ind, int[] num, int amt, int[][] dp) {
+        if(ind == 0){
+            if(amt % num[0] == 0) return amt / num[0];
+            else return (int)1e9;
         }
 
-        for(int i = 1 ; i < n ; i++){
-            for(int amt = 0 ; amt<=amount ; amt++){
-                int nottake = prev[amt];
-                int take = Integer.MAX_VALUE;
-                if(amt>=coins[i])take = 1+cur[amt-coins[i]];
-                cur[amt]=Math.min(nottake,take);
-            }
-            prev = cur.clone();
-        }
+        if(dp[ind][amt] != -1) return dp[ind][amt];
 
-        return (prev[amount]==1e9)?-1:prev[amount];
+        int take = (int)1e9;
+        if(num[ind] <= amt)
+            take = 1 + func(ind, num, amt - num[ind], dp);
+
+        int nottake = func(ind-1, num, amt, dp);
+
+        return dp[ind][amt] = Math.min(take, nottake);
     }
 }
