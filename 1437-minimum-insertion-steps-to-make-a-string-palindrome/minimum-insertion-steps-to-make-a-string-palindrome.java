@@ -1,27 +1,36 @@
 class Solution {
     public int minInsertions(String s) {
         int n = s.length();
-        return n-longestPalindromeSubseq(s);
+        return n-lps(s);
     }
 
-    public int longestPalindromeSubseq(String s) {
+    public int lps(String s) {
         int n = s.length();
-        int[][] dp = new int[n][n];
+        StringBuilder sb = new StringBuilder(s);
+        sb.reverse();
+        return lcs(s,sb.toString());
+    }
 
-        for(int i = 0 ; i < n ; i++){
-            dp[i][i]=1;
+    public int lcs(String s1,String s2) {
+        int n1 = s1.length();
+        int n2 = s2.length();
+        int[][] dp = new int[n1+1][n2+1];
+        for(int[] arr : dp){
+            Arrays.fill(arr,-1);
         }
 
-        for(int i = n-1 ; i >= 0  ; i--){
-            for(int j = i+1 ; j < n ; j++){
-                if(s.charAt(i)==s.charAt(j)){
-                    dp[i][j] = 2+dp[i+1][j-1];
-                }else{
-                    dp[i][j] = Math.max(dp[i+1][j],dp[i][j-1]);
-                }
-            }
+        return func(n1-1,n2-1,s1,s2,dp);
+    }
+
+    public int func(int ind1,int ind2,String s1,String s2,int[][] dp) {
+        if(ind1<0 || ind2<0)return 0;
+
+        if(dp[ind1][ind2]!=-1)return dp[ind1][ind2];
+
+        if(s1.charAt(ind1)==s2.charAt(ind2)){
+            return dp[ind1][ind2] = 1 + func(ind1-1,ind2-1,s1,s2,dp);
+        }else{
+            return dp[ind1][ind2] = Math.max(func(ind1-1,ind2,s1,s2,dp),func(ind1,ind2-1,s1,s2,dp));
         }
-        
-        return dp[0][n-1];
     }
 }
