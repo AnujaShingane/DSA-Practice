@@ -15,20 +15,19 @@ class Solution {
 
     public String RLE(String str){
         int n = str.length();
-        char[] arr = str.toCharArray();
-
-        char mch = arr[0];
+        char[] ch = str.toCharArray();
         int cnt = 1;
         StringBuilder sb = new StringBuilder();
+        char mch = ch[0];
 
         for(int i = 1 ; i < n ; i++){
-            if(arr[i] == mch){
+            if(ch[i] == mch){
                 cnt++;
             }else{
                 sb.append(cnt);
                 sb.append(mch);
 
-                mch = arr[i];
+                mch = ch[i];
                 cnt = 1;
             }
         }
