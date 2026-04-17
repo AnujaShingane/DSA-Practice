@@ -1,16 +1,16 @@
-public class Solution {
+class Solution {
     public boolean isAnagram(String s, String t) {
-        if (s.length() != t.length()) return false;
+        int n = s.length();
+        if(s.length()!=t.length())return false;
+        int[] arr = new int[26];
 
-        int[] count = new int[26];  // for lowercase letters a-z
-
-        for (int i = 0; i < s.length(); i++) {
-            count[s.charAt(i) - 'a']++;   // increment for s
-            count[t.charAt(i) - 'a']--;   // decrement for t
+        for(int i = 0 ; i < n ; i++){
+            arr[s.charAt(i)-'a']++;
+            arr[t.charAt(i)-'a']--;
         }
 
-        for (int val : count) {
-            if (val != 0) return false;   // mismatch found
+        for(int i = 0 ; i < arr.length ; i++){
+            if(arr[i]!=0)return false;
         }
 
         return true;
