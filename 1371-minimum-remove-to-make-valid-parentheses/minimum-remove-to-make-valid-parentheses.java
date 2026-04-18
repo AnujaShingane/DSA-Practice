@@ -1,36 +1,31 @@
 class Solution {
     public String minRemoveToMakeValid(String s) {
         int n = s.length();
-
         Stack<Integer> st = new Stack<>();
         StringBuilder sb = new StringBuilder(s);
 
-        for (int i = 0; i < n; i++) {
-            char ch = sb.charAt(i);
-
-            if (ch == '(') {
-                st.push(i);
-            }
-            else if (ch == ')') {
-                if (!st.isEmpty()) {
-                    st.pop(); // matched
-                } else {
-                    sb.setCharAt(i, '#'); // invalid ')'
+        for(int i = 0 ; i < n ; i++){
+            if(sb.charAt(i)==')'){
+                if(!st.isEmpty())st.pop();
+                else{
+                    sb.setCharAt(i,'#');
                 }
             }
+
+            if(sb.charAt(i)=='('){
+                st.push(i);
+            }
         }
 
-        // remaining '(' invalid
-        while (!st.isEmpty()) {
-            sb.setCharAt(st.pop(), '#');
+        //remaining '(' are invalid so
+        while(!st.isEmpty()){
+            sb.setCharAt(st.pop(),'#');
         }
+        String s2 = sb.toString();
 
         StringBuilder ans = new StringBuilder();
-
-        for (int i = 0; i < n; i++) {
-            if (sb.charAt(i) != '#') {
-                ans.append(sb.charAt(i));
-            }
+        for(int i = 0 ; i < s2.length() ; i++){
+            if(s2.charAt(i)!='#')ans.append(s.charAt(i));
         }
 
         return ans.toString();
