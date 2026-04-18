@@ -1,21 +1,51 @@
 class Solution {
     public boolean backspaceCompare(String s, String t) {
-        int n1 = s.length();
-        int n2 = t.length();
-        Stack<Character> s1 = new Stack<>();
-        Stack<Character> t1 = new Stack<>();
+        int i = s.length() - 1;
+        int j = t.length() - 1;
 
-        for(int i = 0 ; i < n1 ; i++){
-            if(s1.isEmpty() && s.charAt(i)=='#')continue;
-            if(!s1.isEmpty() && s.charAt(i)=='#')s1.pop();
-            else s1.push(s.charAt(i));
-        }
-        for(int i = 0 ; i < n2 ; i++){
-            if(t1.isEmpty() && t.charAt(i)=='#')continue;
-            if(!t1.isEmpty() && t.charAt(i)=='#')t1.pop();
-            else t1.push(t.charAt(i));
+        while (i >= 0 || j >= 0) {
+
+            // Find next valid char in s
+            int skipS = 0;
+            while (i >= 0) {
+                if (s.charAt(i) == '#') {
+                    skipS++;
+                    i--;
+                } else if (skipS > 0) {
+                    skipS--;
+                    i--;
+                } else {
+                    break;
+                }
+            }
+
+            // Find next valid char in t
+            int skipT = 0;
+            while (j >= 0) {
+                if (t.charAt(j) == '#') {
+                    skipT++;
+                    j--;
+                } else if (skipT > 0) {
+                    skipT--;
+                    j--;
+                } else {
+                    break;
+                }
+            }
+
+            // Compare current valid chars
+            if (i >= 0 && j >= 0) {
+                if (s.charAt(i) != t.charAt(j)) return false;
+            } 
+            else {
+                // one string ended, other didn't
+                if (i >= 0 || j >= 0) return false;
+            }
+
+            i--;
+            j--;
         }
 
-        return s1.equals(t1);
+        return true;
     }
 }
