@@ -10,7 +10,7 @@ class Solution {
             set.add(s);
 
             for(char ch : s.toCharArray()){
-                int num = ch - '0';
+                int  num = ch - '0';
                 ans += num * num;
             }
             sb.append(ans);
