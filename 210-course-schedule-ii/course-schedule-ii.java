@@ -1,50 +1,41 @@
 class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         ArrayList<ArrayList<Integer>> adj = adjecencyList(numCourses,prerequisites);
-        int[] ans = topoSort(numCourses,prerequisites);
+        List<Integer> ans = topoSort(numCourses,adj);
 
-        return ans;
-    }
-
-    public int[] topoSort(int numCourses, int[][] prerequisites) {
-        ArrayList<ArrayList<Integer>> adj = adjecencyList(numCourses,prerequisites);
-        boolean[] vis = new boolean[numCourses];
-        boolean[] pathVis = new boolean[numCourses];
-        Stack<Integer> st = new Stack<>();
-        
+        if(ans.size()<numCourses)return new int[]{};
+        int[] res = new int[numCourses];
         for(int i = 0 ; i < numCourses ; i++){
-            if(!vis[i]){
-                if(dfs(i,-1,vis,pathVis,adj,st)){
-                    return new int[0];
-                }
-            }
-        }
-        
-        int[] ans = new int[numCourses];
-        int i = 0;
-        while(!st.isEmpty()){
-            ans[i++] = st.pop();
+            res[i] = ans.get(i);
         }
 
-        return ans;
+        return res;
     }
-    
-    public boolean dfs(int node,int parent, boolean[] vis, boolean[] pathVis,ArrayList<ArrayList<Integer>> adj,Stack<Integer> st){
-        vis[node]=true;
-        pathVis[node] = true;
-        
-        for(int ele : adj.get(node)){
-            if(!vis[ele]){
-                if(dfs(ele,node,vis,pathVis,adj,st))return true;
-            }
-            else if(vis[ele] && pathVis[ele]){
-                return true;
+
+    public List<Integer> topoSort(int n, ArrayList<ArrayList<Integer>> adj) {
+        int[] indegree = new int[n];
+        for (int i = 0; i < n; i++) {
+            for (int nei : adj.get(i)) indegree[nei]++;
+        }
+
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            if (indegree[i] == 0) q.offer(i);
+        }
+
+        List<Integer> res = new ArrayList<>();
+
+        while (!q.isEmpty()) {
+            int node = q.poll();
+            res.add(node);
+
+            for (int nei : adj.get(node)) {
+                indegree[nei] -= 1;
+                if (indegree[nei] == 0) q.offer(nei);
             }
         }
-        
-        pathVis[node]=false;
-        st.push(node);
-        return false;
+
+        return res;
     }
 
     public ArrayList<ArrayList<Integer>> adjecencyList(int numCourses,int[][] prerequisites){
