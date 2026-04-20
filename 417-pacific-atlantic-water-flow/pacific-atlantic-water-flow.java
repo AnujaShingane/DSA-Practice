@@ -1,55 +1,57 @@
 class Solution {
-    int n, m;
     int[][] h;
-    boolean pacific, atlantic;
+    boolean pacific;
+    boolean atlantic;
 
     public List<List<Integer>> pacificAtlantic(int[][] heights) {
-        h = heights;
-        n = h.length;
-        m = h[0].length;
+        int n = heights.length;
+        int m = heights[0].length;
+        h = new int[n][m];
 
-        List<List<Integer>> ans = new ArrayList<>();
+        for(int i = 0 ; i < n ; i++){
+            for(int j = 0 ; j < m ; j++){
+                h[i][j] = heights[i][j];
+            }
+        }
 
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < m; j++) {
+        List<List<Integer>> res = new ArrayList<>();
 
+        for(int i = 0 ; i < n ; i++){
+            for(int j = 0 ; j < m ; j++){
                 pacific = false;
                 atlantic = false;
 
                 boolean[][] vis = new boolean[n][m];
 
-                dfs(i, j, h[i][j], vis);
+                dfs(i,j,n,m,h[i][j],vis,h);
 
-                if(pacific && atlantic) {
-                    ans.add(Arrays.asList(i, j));
+                if(pacific && atlantic){
+                    res.add(Arrays.asList(i,j));
                 }
             }
         }
 
-        return ans;
+        return res;
     }
 
-    public void dfs(int i, int j, int prev, boolean[][] vis) {
-
-        // reached Pacific
-        if(i < 0 || j < 0) {
+    public void dfs(int i,int j,int n,int m,int num,boolean[][] vis,int[][] h){
+        if(i<0 || j<0){
             pacific = true;
             return;
         }
 
-        // reached Atlantic
-        if(i >= n || j >= m) {
+        if(i>=n || j>=m){
             atlantic = true;
             return;
         }
 
-        if(vis[i][j] || h[i][j] > prev) return;
+        if(vis[i][j] || h[i][j]>num)return;
 
         vis[i][j] = true;
 
-        dfs(i - 1, j, h[i][j], vis);
-        dfs(i + 1, j, h[i][j], vis);
-        dfs(i, j - 1, h[i][j], vis);
-        dfs(i, j + 1, h[i][j], vis);
+        dfs(i-1,j,n,m,h[i][j],vis,h);
+        dfs(i,j-1,n,m,h[i][j],vis,h);
+        dfs(i,j+1,n,m,h[i][j],vis,h);
+        dfs(i+1,j,n,m,h[i][j],vis,h);
     }
 }
