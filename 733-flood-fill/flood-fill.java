@@ -3,27 +3,29 @@ class Solution {
         int n = image.length;
         int m = image[0].length;
         int[][] res = new int[n][m];
-        boolean[][] vis = new boolean[n][m];
-
+        
         for(int i = 0 ; i < n ; i++){
             for(int j = 0 ; j < m ; j++){
                 res[i][j] = image[i][j];
             }
         }
 
-        dfs(sr,sc,n,m,image[sr][sc],color,res,vis);
+        int num = res[sr][sc];
+        if(num == color)return res;
+
+        dfs(sr,sc,n,m,num,res,color);
 
         return res;
     }
 
-    public void dfs(int sr,int sc,int n,int m,int startingColor,int color,int[][] res,boolean[][] vis) {
-        if(sr<0 || sr>=n || sc<0 || sc>=m || vis[sr][sc] || res[sr][sc]!=startingColor)return;
-        vis[sr][sc]=true;
-        res[sr][sc]=color;
+    public void dfs(int i,int j,int n,int m,int num, int[][] res, int color){
+        if(i<0 || i>=n || j<0 || j>=m || res[i][j] != num)return;
 
-        dfs(sr+1,sc,n,m,startingColor,color,res,vis);
-        dfs(sr-1,sc,n,m,startingColor,color,res,vis);
-        dfs(sr,sc+1,n,m,startingColor,color,res,vis);
-        dfs(sr,sc-1,n,m,startingColor,color,res,vis);
+        res[i][j] = color;
+
+        dfs(i-1,j,n,m,num,res,color);
+        dfs(i,j-1,n,m,num,res,color);
+        dfs(i,j+1,n,m,num,res,color);
+        dfs(i+1,j,n,m,num,res,color);
     }
 }
