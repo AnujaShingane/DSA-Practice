@@ -7,33 +7,34 @@ class Solution {
         return false;
     }
 
-    public boolean isCycle(int numCourses,ArrayList<ArrayList<Integer>> adj){
-        boolean[] vis = new boolean[numCourses];
-        boolean[] pathVis = new boolean[numCourses];
+    public boolean isCycle(int n, ArrayList<ArrayList<Integer>> adj) {
+        int[] indegree = new int[n];
 
-        for(int i = 0 ; i < numCourses ; i++){
-            if(!vis[i]){
-                if(dfs(i,vis,pathVis,adj))return true;
+        for (int i = 0; i < n; i++) {
+            for (int nei : adj.get(i)) {
+                indegree[nei]++;
             }
         }
 
-        return false;
-    }
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            if (indegree[i] == 0) q.offer(i);
+        }
 
-    public boolean dfs(int node,boolean[] vis,boolean[] pathVis,ArrayList<ArrayList<Integer>> adj){
-        vis[node] = true;
-        pathVis[node] = true;
+        int count = 0;
+        while (!q.isEmpty()) {
+            int node = q.poll();
+            count++;
 
-        for(int ele : adj.get(node)){
-            if(!vis[ele]){
-                if(dfs(ele,vis,pathVis,adj))return true;
-            }else{
-                if(pathVis[ele])return true;
+            for (int nei : adj.get(node)) {
+                indegree[nei] -= 1;
+                if (indegree[nei] == 0) {
+                    q.offer(nei);
+                }
             }
         }
 
-        pathVis[node]=false;
-        return false;
+        return count != n; // cycle if not all processed
     }
 
     public ArrayList<ArrayList<Integer>> adjList(int numCourses,int[][] prerequisites){
