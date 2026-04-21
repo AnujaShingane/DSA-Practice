@@ -2,11 +2,14 @@ class Solution {
     public int networkDelayTime(int[][] times, int n, int k) {
         ArrayList<ArrayList<Pair>> adj = adjList(n,times);
         int[] arr = dijkstra(n,adj,k);
-        int max = 0;
+        int max = Integer.MIN_VALUE;
+        
+        for(int i = 1; i <= n ; i++){
+            max = Math.max(arr[i],max);
+        }
 
-        for(int i=1;i<=n;i++){
-            if(arr[i]==Integer.MAX_VALUE) return -1;
-            max = Math.max(max, arr[i]);
+        if(max==Integer.MIN_VALUE || max == Integer.MAX_VALUE){
+            return -1;
         }
 
         return max;
