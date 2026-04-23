@@ -35,14 +35,13 @@ class Solution {
 
     public boolean dfs(int node, int par, boolean[] vis, int[] parent,
                        ArrayList<ArrayList<Integer>> adj,List<Integer> cycle){
-
         vis[node] = true;
         for(int ele : adj.get(node)){
             if(!vis[ele]){
                 parent[ele] = node;
                 if(dfs(ele, node, vis, parent, adj,cycle))return true;
             }
-            else if(ele != par){
+            else if(ele != par){ //cycle detected
                 cycle.add(ele);
                 int cur = node;
 
@@ -58,9 +57,7 @@ class Solution {
     }
 
     public ArrayList<ArrayList<Integer>> adjacencyList(int V,int[][] edges){
-
         ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
-
         for(int i = 0 ; i <= V ; i++){
             adj.add(new ArrayList<>());
         }
@@ -69,7 +66,6 @@ class Solution {
             adj.get(arr[0]).add(arr[1]);
             adj.get(arr[1]).add(arr[0]);
         }
-
         return adj;
     }
 }
