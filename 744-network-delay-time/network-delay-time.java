@@ -44,9 +44,9 @@ class Solution {
                 int dis = nei.dist;
                 int newDist = dis+d;
 
-                if(newDist<dist[n]){
-                    dist[n] = newDist;
-                    pq.offer(new Pair(n,newDist));
+                if(dist[node]+dis<dist[n]){
+                    dist[n] = dist[node]+dis;
+                    pq.offer(new Pair(n,dist[n]));
                 }
             }
         }
