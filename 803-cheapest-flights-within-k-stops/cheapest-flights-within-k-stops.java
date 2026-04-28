@@ -8,7 +8,6 @@ class Solution {
 
         for(int i = 0 ; i < k+1 ; i++){
             int[] temp = dist.clone();
-
             for(int[] edge : flights){
                 int u = edge[0];
                 int v = edge[1];
