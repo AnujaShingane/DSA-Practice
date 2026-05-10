@@ -45,7 +45,7 @@ class Solution {
             int u = arr[0];
             int v = arr[1];
 
-            if(ds.findUPar(u) == ds.findUPar(v)){
+            if(ds.findUPar(u)==ds.findUPar(v)){
                 cntExtras++;
             }else{
                 ds.unionByParent(u,v);
@@ -54,11 +54,13 @@ class Solution {
 
         int cntC = 0;
         for(int i = 0 ; i < n ; i++){
-            if(ds.findUPar(i)==i)cntC++;
+            if(ds.findUPar(i)==i){
+                cntC++;
+            }
         }
 
         int ans = cntC-1;
-        if(cntExtras>=ans)return ans;
+        if(cntExtras >= ans)return ans;
         else return -1;
     }
 }
