@@ -1,22 +1,32 @@
 class Solution {
     public int minimumTotal(List<List<Integer>> triangle) {
-        int n = triangle.size();
-        int m = triangle.get(n-1).size();
-        int[][] dp = new int[n+1][m+1];
+        int m = triangle.size();
+        int n = triangle.get(m-1).size();
+        int[][] dp = new int[m][m];
 
         for(int j = 0 ; j < m ; j++){
-            dp[n-1][j] = triangle.get(n-1).get(j);
+            dp[m-1][j] = triangle.get(m-1).get(j);
         }
 
-        for(int i = n-2 ; i >= 0 ; i--){
+        for(int i = m-2 ; i >= 0 ; i--){
             for(int j = 0 ; j <= i ; j++){
-                int down = triangle.get(i).get(j) + dp[i+1][j];
                 int diag = triangle.get(i).get(j) + dp[i+1][j+1];
+                int down = triangle.get(i).get(j) + dp[i+1][j];
 
-                dp[i][j] = Math.min(down,diag);
+                dp[i][j] = Math.min(diag,down);
             }
         }
 
         return dp[0][0];
+    }
+
+    public int func(int i,int j ,List<List<Integer>> triangle,int m , int n,int[][] dp){
+        if(i==n-1)return triangle.get(i).get(j);
+        if(dp[i][j] != -1)return dp[i][j];
+
+        int diag = triangle.get(i).get(j) + func(i+1,j+1,triangle,m,n,dp);
+        int down = triangle.get(i).get(j) + func(i+1,j,triangle,m,n,dp);
+
+        return dp[i][j] = Math.min(diag,down);
     }
 }
