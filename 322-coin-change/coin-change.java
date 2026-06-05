@@ -2,32 +2,26 @@ class Solution {
     public int coinChange(int[] coins, int amount) {
         int n = coins.length;
         int[][] dp = new int[n][amount+1];
-        for(int[] arr1 : dp){
-            Arrays.fill(arr1,-1);
+        for(int[] row : dp){
+            Arrays.fill(row,-1);
         }
-        
-        int ans = func(n-1,coins,amount,dp);
-        return ans >= (int)1e9 ? -1 : ans;
+
+        int ans = func(n-1,amount,coins,dp);
+        return ans >= (int)(1e9) ? -1 : ans;
     }
 
-    static int func(int ind,int[] num,int amt,int[][] dp) {
-        // if(ind==0){
-        //     if(tar==0 && num[0]==0)return 2;
-        //     if(tar==0 || num[0]==tar)return 1;
-        //     else return 0;
-        // }
-
+    public int func(int ind,int amount,int[] coins,int[][] dp) {
         if(ind==0){
-            if(amt%num[0]==0)return amt/num[0];
-            else return (int)1e9;
+            if(amount%coins[0]==0)return amount/coins[0];
+            return (int)(1e9);
         }
+        if(dp[ind][amount]!=-1)return dp[ind][amount];
 
-        if(dp[ind][amt]!=-1)return dp[ind][amt];
+        int take = (int)(1e9);
+        if(amount>=coins[ind]) take = 1 + func(ind,amount-coins[ind],coins,dp);
 
-        int take = (int)1e9;
-        if(num[ind]<= amt)take = 1 + func(ind,num,amt-num[ind],dp);
-        int nottake = func(ind-1,num,amt,dp);
+        int nottake = func(ind-1,amount,coins,dp);
 
-        return dp[ind][amt] = Math.min(take,nottake);
+        return dp[ind][amount] = Math.min(take,nottake);
     }
 }
