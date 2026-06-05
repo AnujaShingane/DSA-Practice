@@ -2,31 +2,25 @@ class Solution {
     public int change(int amount, int[] coins) {
         int n = coins.length;
         int[][] dp = new int[n][amount+1];
-        for(int[] arr1 : dp){
-            Arrays.fill(arr1,-1);
+        for(int[] row : dp){
+            Arrays.fill(row,-1);
         }
-        
-        int ans = func(n-1,coins,amount,dp);
-        return ans;
+
+        return func(n-1,amount,coins,dp);
     }
 
-    static int func(int ind,int[] num,int amt,int[][] dp) {
-        if(amt==0){
-            return 1;
-        }
-
+    public int func(int ind,int amount,int[] coins,int[][] dp) {
         if(ind==0){
-            if(amt==num[0])return 1;
+            if(amount%coins[0]==0)return 1;
+            return 0;
         }
-
-        if(ind<0)return 0;
-
-        if(dp[ind][amt]!=-1)return dp[ind][amt];
+        if(dp[ind][amount]!=-1)return dp[ind][amount];
 
         int take = 0;
-        if(num[ind]<= amt)take = func(ind,num,amt-num[ind],dp);
-        int nottake = func(ind-1,num,amt,dp);
+        if(amount>=coins[ind]) take = func(ind,amount-coins[ind],coins,dp);
 
-        return dp[ind][amt] = take + nottake;
+        int nottake = func(ind-1,amount,coins,dp);
+
+        return dp[ind][amount] = take + nottake;
     }
 }
