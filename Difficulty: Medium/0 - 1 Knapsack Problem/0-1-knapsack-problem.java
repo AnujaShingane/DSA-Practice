@@ -11,13 +11,14 @@ class Solution {
     
     public int func(int ind,int W,int[] val,int[] wt,int[][] dp) {
         if(ind==0){
-            if(wt[ind]<=W)return val[ind];
-            return 0;
+            if(W>=wt[ind])return val[ind];
+            else return 0;
         }
-        if(dp[ind][W]!=-1)return dp[ind][W];
+        if(dp[ind][W] != -1)return dp[ind][W];
         
-        int take = (int)(-1e9);
-        if(wt[ind]<=W)take = val[ind] + func(ind-1,W-wt[ind],val,wt,dp);
+        int take = Integer.MIN_VALUE;
+        if(W>= wt[ind]) take = val[ind] + func(ind-1,W-wt[ind],val,wt,dp);
+        
         int nottake = func(ind-1,W,val,wt,dp);
         
         return dp[ind][W] = Math.max(take,nottake);
