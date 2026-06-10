@@ -3,28 +3,18 @@ class Solution {
         int[] dp = new int[n+1];
         Arrays.fill(dp,-1);
 
-        dp[0]=1;
-        dp[1]=1;
-
-        for(int i = 2 ; i < n ; i++){
-            int left = dp[i-1];
-            int right = dp[i-2];
-
-            dp[i] = left + right;
-        }
-
         return func(n,dp);
     }
 
     public int func(int ind,int[] dp) {
-        if(ind == 0)return 1;
-        if(ind == 1)return 1;
+        if(ind==0)return 1;
+        if(ind<0)return 0;
+        if(dp[ind]!=-1)return dp[ind];
 
-        if(dp[ind]!= -1)return dp[ind];
+        int one = func(ind-1,dp);
+        int two = 0;
+        if(ind>1) two = func(ind-2,dp);
 
-        int left = func(ind-1,dp);
-        int right = func(ind-2,dp);
-
-        return dp[ind] = left + right;
+        return dp[ind] = one + two;
     }
 }
