@@ -2,8 +2,6 @@ class Solution {
     int profit = 0;
     public int maxProfit(int[] prices) {
         int n = prices.length;
-        int[][] dp = new int[n+1][2];
-        dp[n][0] = dp[n][1] = 0;
         int[] ahead = new int[n+1];
         int[] cur = new int[2];
 
