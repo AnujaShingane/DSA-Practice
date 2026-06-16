@@ -1,32 +1,22 @@
 class Solution {
     public int numberOfSubstrings(String s) {
-        int goal = 3;
-        return number(s, goal) - number(s, goal-1);
-    }
-
-    public int number(String s, int goal) {
         int n = s.length();
-        int l = 0 , r = 0;
-        int cnt = 0;
-        HashMap<Character,Integer> map = new HashMap<>();
-        if(goal < 0) return 0;
+        int[] lastSeen = new int[3];
+        Arrays.fill(lastSeen,-1);
+        int ans = 0;
 
-        while(r < n){
-            map.put(s.charAt(r), map.getOrDefault(s.charAt(r),0)+1);
+        for(int i = 0 ; i < n ; i++){
+            char ch = s.charAt(i);
+            lastSeen[ch-'a'] = i;
+            int min = (int)(1e9);
 
-            while(map.size() > goal){
-                map.put(s.charAt(l), map.get(s.charAt(l))-1);
-                if(map.get(s.charAt(l)) == 0){
-                    map.remove(s.charAt(l));
-                }
-                l++;
+            for(int j = 0 ; j<3 ; j++){
+                min = Math.min(min,lastSeen[j]);
             }
-
-            if(map.size() <= goal){
-                cnt +=  r-l+1;
+            if(min!=-1){
+                ans+=(min+1);
             }
-            r++;
         }
-        return cnt;
+        return ans;
     }
 }
