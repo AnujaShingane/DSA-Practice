@@ -1,52 +1,28 @@
-import java.util.Arrays;
-
 class Solution {
-
     long[][] dp;
-
     public long maxTotal(int[] nums, String s) {
-
         int n = nums.length;
-
         dp = new long[n][2];
-
-        for (long[] row : dp) {
-            Arrays.fill(row, -1);
+        for(long[] arr : dp){
+            Arrays.fill(arr,-1);
         }
 
-        return func(n - 1, 0, nums, s);
+        return func(n-1,0,s,nums);
     }
 
-    long func(int i, int nextMoved, int[] nums, String s) {
+    public long func(int ind,int nexttoken,String s,int[] nums) {
+        if(ind<0)return 0;
+        if(dp[ind][nexttoken]!=-1)return dp[ind][nexttoken];
 
-        if (i < 0) {
-            return 0;
+        if(s.charAt(ind)=='0'){
+            long gain = (nexttoken==1) ? nums[ind] : 0;
+            return dp[ind][nexttoken] = gain + func(ind-1,0,s,nums);
         }
 
-        if (dp[i][nextMoved] != -1) {
-            return dp[i][nextMoved];
-        }
+        long stay = nums[ind] + func(ind-1,0,s,nums);
 
-        // No token at i
-        if (s.charAt(i) == '0') {
+        long move = ((nexttoken==1) ? nums[ind] : 0 ) + func(ind-1,1,s,nums);
 
-            long gain = (nextMoved == 1 ? nums[i] : 0);
-
-            return dp[i][nextMoved] =
-                    gain + func(i - 1, 0, nums, s);
-        }
-
-        // Option 1: token stays at i
-        long stay =
-                nums[i] +
-                func(i - 1, 0, nums, s);
-
-        // Option 2: token moves to i-1
-        long move =
-                (nextMoved == 1 ? nums[i] : 0) +
-                func(i - 1, 1, nums, s);
-
-        return dp[i][nextMoved] =
-                Math.max(stay, move);
+        return dp[ind][nexttoken] = Math.max(stay,move);
     }
 }
