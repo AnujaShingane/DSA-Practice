@@ -2,21 +2,22 @@ class Solution {
     public int numEnclaves(int[][] grid) {
         int n = grid.length;
         int m = grid[0].length;
+        boolean[][] vis = new boolean[n][m];
+
+        for(int i = 0 ; i < n ; i++){
+            if(grid[i][0]==1)dfs(i,0,n,m,vis,grid);
+        }
 
         for(int i = 0 ; i < m ; i++){
-            if(grid[0][i]==1)dfs(0,i,n,m,grid);
+            if(grid[0][i]==1)dfs(0,i,n,m,vis,grid);
         }
 
-        for(int j = 0 ; j < n ; j++){
-            if(grid[j][m-1]==1)dfs(j,m-1,n,m,grid);
+        for(int i = 0 ; i < n ; i++){
+            if(grid[i][m-1]==1)dfs(i,m-1,n,m,vis,grid);
         }
 
-        for(int k = 0 ; k < m ; k++){
-            if(grid[n-1][k]==1)dfs(n-1,k,n,m,grid);
-        }
-
-        for(int l = 0 ; l < n ; l++){
-            if(grid[l][0]==1)dfs(l,0,n,m,grid);
+        for(int i = 0 ; i < m ; i++){
+            if(grid[n-1][i]==1)dfs(n-1,i,n,m,vis,grid);
         }
 
         int cnt = 0;
@@ -29,14 +30,15 @@ class Solution {
         return cnt;
     }
 
-    public void dfs(int r,int c,int n,int m,int[][] grid) {
-        if(r<0 || r>=n || c<0 || c>=m || grid[r][c]==0)return;
+    public void dfs(int row,int col,int n,int m,boolean[][] vis,int[][] grid) {
+        if(row >= n || row < 0 || col >= m || col < 0 || vis[row][col] || grid[row][col] != 1) return;
 
-        grid[r][c] = 0;
+        vis[row][col] = true;
+        grid[row][col] = 2;
 
-        dfs(r+1,c,n,m,grid);
-        dfs(r-1,c,n,m,grid);
-        dfs(r,c+1,n,m,grid);
-        dfs(r,c-1,n,m,grid);
+        dfs(row+1,col,n,m,vis,grid);
+        dfs(row,col-1,n,m,vis,grid);
+        dfs(row-1,col,n,m,vis,grid);
+        dfs(row,col+1,n,m,vis,grid);
     }
 }
