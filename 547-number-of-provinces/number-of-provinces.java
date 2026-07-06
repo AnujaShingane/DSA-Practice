@@ -1,60 +1,45 @@
-import java.util.*;
-
-class DisjointSet{
-  ArrayList<Integer> rank = new ArrayList<>();
-  ArrayList<Integer> parent = new ArrayList<>();
-  
-  DisjointSet(int n){
-    for(int i = 0 ; i <= n ; i++){
-      rank.add(0);
-      parent.add(i);
-    }
-  }
-  
-  public int findUPar(int node){
-    if(node == parent.get(node))return node;
-    
-    int ulp = findUPar(parent.get(node));
-    parent.set(node,ulp);
-    return parent.get(node);
-  }
-  
-  public void unionByParent(int u , int v){
-    int ulp_u = findUPar(u);
-    int ulp_v = findUPar(v);
-    
-    if(ulp_v==ulp_u)return;
-    
-    if(rank.get(ulp_u)<rank.get(ulp_v)){
-      parent.set(ulp_u,ulp_v);
-    }else if(rank.get(ulp_u)>rank.get(ulp_v)){
-      parent.set(ulp_v,ulp_u);
-    }else{
-      parent.set(ulp_u,ulp_v);
-      rank.set(ulp_u,rank.get(ulp_u)+1);
-    }
-  }
-}
-
 class Solution {
     public int findCircleNum(int[][] isConnected) {
         int n = isConnected.length;
-        DisjointSet ds = new DisjointSet(n+1);
+        int m = isConnected[0].length;
+        boolean[] vis = new boolean[n];
 
-        for(int i = 0 ; i < n ; i++){
-            int node = i+1;
-            for(int j = 0 ; j < isConnected[0].length ; j++){
-                if(isConnected[i][j]==1)ds.unionByParent(node,j+1);
-            }
-        }
+        List<List<Integer>> adj = adjList(n,m,isConnected);
 
         int cnt = 0;
-        for(int i = 1 ; i <= n ; i++){
-            if(ds.findUPar(i) == i){
+        for(int i = 0 ; i < n ; i++){
+            if(!vis[i]){
                 cnt++;
+                dfs(i,vis,adj);
             }
         }
 
         return cnt;
+    }
+
+    public void dfs(int node,boolean[] vis,List<List<Integer>> adj) {
+        vis[node] = true;
+
+        for(int nei : adj.get(node)){
+            if(!vis[nei]){
+                dfs(nei,vis,adj);
+            }
+        }
+    }
+
+    public List<List<Integer>> adjList(int n,int m,int[][] isConnected) {
+        List<List<Integer>> adj = new ArrayList<>();
+
+        for(int i = 0 ; i < n ; i++){
+            adj.add(new ArrayList<>());
+        }
+
+        for(int i = 0 ; i < n ; i++){
+            for(int j = 0 ; j < m ; j++){
+                if(i!=j && isConnected[i][j] == 1)adj.get(i).add(j);
+            }
+        }
+
+        return adj;
     }
 }
