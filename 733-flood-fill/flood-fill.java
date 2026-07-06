@@ -1,31 +1,32 @@
 class Solution {
+    int startingcolor;
     public int[][] floodFill(int[][] image, int sr, int sc, int color) {
         int n = image.length;
         int m = image[0].length;
+        boolean[][] vis = new boolean[n][m];
         int[][] res = new int[n][m];
-        
+        startingcolor = image[sr][sc];
+
         for(int i = 0 ; i < n ; i++){
             for(int j = 0 ; j < m ; j++){
                 res[i][j] = image[i][j];
             }
         }
 
-        int num = res[sr][sc];
-        if(num == color)return res;
-
-        dfs(sr,sc,n,m,num,res,color);
+        dfs(sr,sc,n,m,color,vis,res);
 
         return res;
     }
 
-    public void dfs(int i,int j,int n,int m,int num, int[][] res, int color){
-        if(i<0 || i>=n || j<0 || j>=m || res[i][j] != num)return;
+    public void dfs(int sr,int sc,int n, int m,int color,boolean[][] vis, int[][] res) {
+        if(sr>=n || sr<0 || sc>=m || sc<0 || vis[sr][sc] || res[sr][sc]!=startingcolor) return;
 
-        res[i][j] = color;
+        vis[sr][sc] = true;
+        res[sr][sc] = color;
 
-        dfs(i-1,j,n,m,num,res,color);
-        dfs(i,j-1,n,m,num,res,color);
-        dfs(i,j+1,n,m,num,res,color);
-        dfs(i+1,j,n,m,num,res,color);
+        dfs(sr+1,sc,n,m,color,vis,res);
+        dfs(sr,sc-1,n,m,color,vis,res);
+        dfs(sr-1,sc,n,m,color,vis,res);
+        dfs(sr,sc+1,n,m,color,vis,res);
     }
 }
