@@ -1,18 +1,19 @@
 class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
-        ArrayList<ArrayList<Integer>> adj = adjecencyList(numCourses,prerequisites);
-        List<Integer> ans = topoSort(numCourses,adj);
+        int n = numCourses;
+        List<List<Integer>> adj = adjList(prerequisites,n);
 
-        if(ans.size()<numCourses)return new int[]{};
-        int[] res = new int[numCourses];
-        for(int i = 0 ; i < numCourses ; i++){
-            res[i] = ans.get(i);
-        }
+        List<Integer> list = topoSort(n,new ArrayList<>(),adj);
 
+        if(list.size()!=n)return new int[]{};
+
+        int[] res = new int[n];
+        int i = 0;
+        for(int num : list)res[i++]=num;
         return res;
     }
 
-    public List<Integer> topoSort(int n, ArrayList<ArrayList<Integer>> adj) {
+    public List<Integer> topoSort(int n, List<Integer> res, List<List<Integer>> adj) {
         int[] indegree = new int[n];
         for (int i = 0; i < n; i++) {
             for (int nei : adj.get(i)) indegree[nei]++;
@@ -22,8 +23,6 @@ class Solution {
         for (int i = 0; i < n; i++) {
             if (indegree[i] == 0) q.offer(i);
         }
-
-        List<Integer> res = new ArrayList<>();
 
         while (!q.isEmpty()) {
             int node = q.poll();
@@ -38,16 +37,16 @@ class Solution {
         return res;
     }
 
-    public ArrayList<ArrayList<Integer>> adjecencyList(int numCourses,int[][] prerequisites){
-        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
-        for(int i = 0 ; i < numCourses ; i++){
-            adj.add(new ArrayList<>());
-        }
-
-        for(int[] arr : prerequisites){
-            adj.get(arr[1]).add(arr[0]);
-        }
-
-        return adj;
-    }
+    public List<List<Integer>> adjList(int[][] prerequisites,int n){
+        List<List<Integer>> adj = new ArrayList<>(); 
+        for(int i = 0 ; i < n ; i++){ 
+            adj.add(new ArrayList<>()); 
+        } 
+ 
+        for(int[] arr : prerequisites){ 
+            adj.get(arr[1]).add(arr[0]); 
+        } 
+ 
+        return adj; 
+    } 
 }
