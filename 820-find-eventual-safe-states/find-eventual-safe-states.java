@@ -1,38 +1,41 @@
 class Solution {
     public List<Integer> eventualSafeNodes(int[][] graph) {
         int n = graph.length;
-        int m = graph[0].length;
         int[] outdegree = new int[n];
         Queue<Integer> q = new LinkedList<>();
+
         for(int i = 0 ; i < n ; i++){
-            outdegree[i]=graph[i].length;
-            if(outdegree[i]==0)q.add(i);
+            outdegree[i] = graph[i].length;
+            if(graph[i].length==0)q.offer(i);
         }
 
-        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
-        for(int i = 0 ; i < n ;i++){
+        List<List<Integer>> adj = new ArrayList<>();
+        int ind = 0;
+        for(int i = 0 ; i < n ; i++){
             adj.add(new ArrayList<>());
         }
-
-        for(int i = 0 ; i < n ; i++){
-            int[] arr = graph[i];
-            for(int ele : arr){
-                adj.get(ele).add(i);
+        for(int[] arr : graph){
+            int index = ind++;
+            for(int num : arr){
+                adj.get(num).add(index);
             }
         }
 
-        List<Integer> ans = new ArrayList<>();
+        List<Integer> res = new ArrayList<>();
+
         while(!q.isEmpty()){
             int node = q.poll();
-            ans.add(node);
+            res.add(node);
 
-            for(int ele : adj.get(node)){
-                outdegree[ele]--;
-                if(outdegree[ele]==0)q.offer(ele);
+            for(int nei : adj.get(node)){
+                outdegree[nei]-=1;
+                if(outdegree[nei]==0){
+                    q.offer(nei);
+                }
             }
         }
 
-        Collections.sort(ans);
-        return ans;
+        Collections.sort(res);
+        return res;
     }
 }
