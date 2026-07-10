@@ -1,16 +1,15 @@
-// User function Template for Java
-
 class Solution {
     static int solve(int bt[]) {
-        // code here
-        int prevSum = 0;
-        int wtSum = 0;
+        int n = bt.length;
         Arrays.sort(bt);
+        int prevSum = 0;
+        int sum = 0;
         
-        for(int i = 0 ; i < bt.length ; i++){
-            wtSum += prevSum;
+        for(int i = 0 ; i < n-1 ; i++){
             prevSum += bt[i];
+            sum += prevSum;
         }
-        return wtSum/bt.length;
+        
+        return sum/n;
     }
 }
