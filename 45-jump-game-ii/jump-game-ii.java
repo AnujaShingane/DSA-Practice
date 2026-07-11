@@ -9,7 +9,7 @@ class Solution {
             int farthest = 0;
 
             for(int i = l ; i <= r ; i++){
-                farthest = Math.max(farthest,i + nums[i]);
+                farthest = Math.max(farthest,i+nums[i]);
             }
 
             l = r+1;
