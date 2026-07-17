@@ -8,7 +8,7 @@ class Solution {
         }
 
         Boolean[][] dp = new Boolean[n][tS+1];
-
+        
         int min = Integer.MAX_VALUE;
         for(int i = 0 ; i <= tS/2 ; i++){
             if(func(n-1,i,stones,dp)){
@@ -19,7 +19,7 @@ class Solution {
         return min;
     }
 
-    public boolean func(int ind,int target,int[] stones,Boolean[][] dp) {
+    public boolean func(int ind,int target,int[]stones,Boolean[][] dp) {
         if(target==0)return true;
         if(ind==0){
             if(target==stones[ind])return true;
@@ -31,6 +31,6 @@ class Solution {
         if(target>=stones[ind]) take = func(ind-1,target-stones[ind],stones,dp);
         boolean nottake = func(ind-1,target,stones,dp);
 
-        return dp[ind][target] = take||nottake;
+        return dp[ind][target] = take || nottake;
     }
 }
