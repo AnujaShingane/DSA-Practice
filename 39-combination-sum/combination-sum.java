@@ -1,27 +1,28 @@
 class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        int n = candidates.length;
         List<List<Integer>> res = new ArrayList<>();
-        List<Integer> list = new ArrayList<>();
-        subsequences(0, list, 0, candidates, target, res);
+
+        func(0,new ArrayList<>(),res,target,candidates);
         return res;
     }
 
-    public void subsequences(int ind, List<Integer> list, int sum, int[] candidates, int target, List<List<Integer>> res) {
-        if (sum == target) {
-            res.add(new ArrayList<>(list));
+    public void func(int ind,List<Integer> ds,List<List<Integer>> res,int target, int[] candidates){
+        if(target==0){
+            res.add(new ArrayList<>(ds));
             return;
         }
 
-        if (ind >= candidates.length || sum > target) {
+        if(ind==candidates.length){
             return;
         }
+        
+        if(target>=candidates[ind]){
+            ds.add(candidates[ind]);
+            func(ind,ds,res,target-candidates[ind],candidates);
+            ds.remove(ds.size()-1);
+        }
 
-        // Include: stay at same index
-        list.add(candidates[ind]);
-        subsequences(ind, list, sum + candidates[ind], candidates, target, res);
-        list.remove(list.size() - 1);
-
-        // Exclude: move to next index
-        subsequences(ind + 1, list, sum, candidates, target, res);
+        func(ind+1,ds,res,target,candidates);
     }
 }
