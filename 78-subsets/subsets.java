@@ -3,14 +3,23 @@ class Solution {
         int n = nums.length;
         List<List<Integer>> res = new ArrayList<>();
 
-        for(int i = 0 ; i < (1<<n) ; i++){
-            List<Integer> list = new ArrayList<>();
-            for(int j = 0 ; j < n ; j++){
-                if((i&(1<<j)) != 0)list.add(nums[j]);
-            }
-            res.add(list);
-        }
+        func(0,new ArrayList<>(),res,nums);
 
         return res;
+    }
+
+    public void func(int ind,List<Integer> ds,List<List<Integer>> res,int[] nums) {
+        if(ind==nums.length){
+            res.add(new ArrayList<>(ds));
+            return;
+        }
+
+        //take
+        ds.add(nums[ind]);
+        func(ind+1,ds,res,nums);
+        ds.remove(ds.size()-1);
+
+        //nottake
+        func(ind+1,ds,res,nums);
     }
 }
