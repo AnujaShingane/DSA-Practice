@@ -6,7 +6,7 @@ class Solution {
         for(int i = 0 ; i < (1<<n) ; i++){
             List<Integer> list = new ArrayList<>();
             for(int j = 0 ; j < n ; j++){
-                if((i & (1<<j))!=0)list.add(nums[j]);
+                if((i&(1<<j)) != 0)list.add(nums[j]);
             }
             res.add(list);
         }
