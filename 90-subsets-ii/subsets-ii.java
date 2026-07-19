@@ -13,7 +13,7 @@ class Solution {
         res.add(new ArrayList<>(ds));
 
         for(int i = ind ; i < nums.length ; i++){
-            if(i>ind && nums[i]==nums[i-1])continue;
+            if(i>ind && nums[i]==nums[i-1])continue; //if duplicate continue
 
             //take
             ds.add(nums[i]);
