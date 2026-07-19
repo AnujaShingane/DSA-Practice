@@ -1,24 +1,30 @@
 class Solution {
     public List<List<Integer>> combine(int n, int k) {
-        HashSet<List<Integer>> set = new HashSet<>();
         int[] arr = new int[n];
-
         for(int i = 1 ; i <= n ; i++){
             arr[i-1] = i;
         }
+        List<List<Integer>> res = new ArrayList<>();
 
-        for(int i = 0 ; i < (1<<arr.length) ; i++){
-            List<Integer> list = new ArrayList<>();
-            for(int j = 0 ; j < n ; j++){
-                if((i&(1<<j))!=0){
-                    list.add(arr[j]);
-                }
-            }
-            if(list.size()==k)set.add(list);
-        }
-
-        List<List<Integer>> res = new ArrayList<>(set);
+        func(0,new ArrayList<>(),res,k,arr);
 
         return res;
+    }
+
+    public void func(int ind,List<Integer> ds,List<List<Integer>> res,int k,int[] arr) {
+        if(k==0){
+            res.add(new ArrayList<>(ds));
+            return;
+        }
+
+        if(ind==arr.length)return;
+
+        //take
+        ds.add(arr[ind]);
+        func(ind+1,ds,res,k-1,arr);
+        ds.remove(ds.size()-1);
+
+        //nottake
+        func(ind+1,ds,res,k,arr);
     }
 }
