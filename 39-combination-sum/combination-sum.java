@@ -4,10 +4,11 @@ class Solution {
         List<List<Integer>> res = new ArrayList<>();
 
         func(0,new ArrayList<>(),res,target,candidates);
+
         return res;
     }
 
-    public void func(int ind,List<Integer> ds,List<List<Integer>> res,int target, int[] candidates){
+    public void func(int ind,List<Integer> ds,List<List<Integer>> res,int target,int[] candidates) {
         if(target==0){
             res.add(new ArrayList<>(ds));
             return;
@@ -16,13 +17,15 @@ class Solution {
         if(ind==candidates.length){
             return;
         }
-        
+
+        //take
         if(target>=candidates[ind]){
             ds.add(candidates[ind]);
             func(ind,ds,res,target-candidates[ind],candidates);
             ds.remove(ds.size()-1);
-        }
+        }     
 
+        //nottake
         func(ind+1,ds,res,target,candidates);
     }
 }
