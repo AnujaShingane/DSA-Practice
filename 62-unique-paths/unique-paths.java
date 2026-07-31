@@ -1,21 +1,21 @@
 class Solution {
     public int uniquePaths(int m, int n) {
-        int[][] dp = new int[m+1][n+1];
-        for(int[] row : dp){
-            Arrays.fill(row,-1);
+        int[][] dp = new int[m][n];
+        for(int[] arr : dp){
+            Arrays.fill(arr,-1);
         }
 
-        return func(m-1,n-1,dp,m,n);
+        return func(m-1,n-1,dp);
     }
 
-    public int func(int i,int j,int[][] dp,int m , int n) {
-        if(i<0 || i>=m || j<0 || j>=n)return 0;
-        if(i==0 && j==0)return 1;
-        if(dp[i][j]!=-1)return dp[i][j];
+    public int func(int row,int col,int[][] dp) {
+        if(row<0 || col<0)return 0;
+        if(row==0 && col==0)return 1;
+        if(dp[row][col]!=-1)return dp[row][col];
 
-        int left = func(i,j-1,dp,m,n);
-        int top = func(i-1,j,dp,m,n);
+        int up = func(row-1,col,dp);
+        int down = func(row,col-1,dp);
 
-        return dp[i][j] = left+top;
+        return dp[row][col] = up+down;
     }
 }
