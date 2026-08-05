@@ -3,7 +3,7 @@ class Solution {
         int one = normalKadane(nums);
         int two = circularKadane(nums);
 
-        if(two<=0)return one;
+        if(one<0)return one;
 
         return Math.max(one,two);
     }
