@@ -4,20 +4,19 @@ class Solution {
         int l = 0;
         int r = 0;
         int sum = 0;
-        int minlen = Integer.MAX_VALUE;
+        int len = Integer.MAX_VALUE;
 
         while(r<n){
             sum+=nums[r];
 
             while(sum>=target){
-                minlen=Math.min(minlen,r-l+1);
+                len = Math.min(len,r-l+1);
                 sum-=nums[l];
                 l++;
             }
             r++;
         }
-        
-        if(minlen==Integer.MAX_VALUE)return 0;
-        else return minlen;
+
+        return (len==Integer.MAX_VALUE) ? 0 : len;
     }
 }
