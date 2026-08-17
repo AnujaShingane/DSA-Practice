@@ -9,13 +9,13 @@ class Solution {
             dp[0][i] = matrix[0][i];
         }
 
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                int up = matrix[i][j] + dp[i - 1][j];
-                int left = matrix[i][j] + (j > 0 ? dp[i - 1][j - 1] : (int)(1e9));
-                int right = matrix[i][j] + (j + 1 < n ? dp[i - 1][j + 1] : (int)(1e9));
+        for(int row = 1 ; row < n ; row++){
+            for(int col = 0 ; col < m ; col++){
+                int up = matrix[row][col] + dp[row-1][col];
+                int left = matrix[row][col] + ((col>=1) ? dp[row-1][col-1] : (int)(1e9));
+                int right = matrix[row][col] + ((col<m-1) ? dp[row-1][col+1] : (int)(1e9));
 
-                dp[i][j] = Math.min(up, Math.min(left, right));
+                dp[row][col] = Math.min(up,Math.min(left,right));
             }
         }
 
