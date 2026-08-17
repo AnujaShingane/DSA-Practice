@@ -5,9 +5,23 @@ class Solution {
         int[][] dp = new int[n][m];
         for(int[] arr : dp)Arrays.fill(arr,(int)(1e9));
 
+        for(int i = 0 ; i < m ; i++){
+            dp[0][i] = matrix[0][i];
+        }
+
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int up = matrix[i][j] + dp[i - 1][j];
+                int left = matrix[i][j] + (j > 0 ? dp[i - 1][j - 1] : (int)(1e9));
+                int right = matrix[i][j] + (j + 1 < n ? dp[i - 1][j + 1] : (int)(1e9));
+
+                dp[i][j] = Math.min(up, Math.min(left, right));
+            }
+        }
+
         int ans = Integer.MAX_VALUE;
         for(int i = 0 ; i < n ; i++){
-            ans = Math.min(ans,func(0,i,matrix,dp));
+            ans = Math.min(ans,dp[n-1][i]);
         }
 
         return ans;
