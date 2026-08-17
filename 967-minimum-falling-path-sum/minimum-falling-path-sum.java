@@ -7,11 +7,11 @@ class Solution {
 
         for (int i = 1; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                int up = dp[i - 1][j];
-                int left = j > 0 ? dp[i - 1][j - 1] : Integer.MAX_VALUE / 2;
-                int right = j + 1 < n ? dp[i - 1][j + 1] : Integer.MAX_VALUE / 2;
+                int up = matrix[i][j] + dp[i - 1][j];
+                int left = matrix[i][j] + (j > 0 ? dp[i - 1][j - 1] : (int)(1e9));
+                int right = matrix[i][j] + (j + 1 < n ? dp[i - 1][j + 1] : (int)(1e9));
 
-                dp[i][j] = matrix[i][j] + Math.min(up, Math.min(left, right));
+                dp[i][j] = Math.min(up, Math.min(left, right));
             }
         }
 
