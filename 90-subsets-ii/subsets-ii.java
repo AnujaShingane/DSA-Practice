@@ -1,24 +1,22 @@
 class Solution {
     public List<List<Integer>> subsetsWithDup(int[] nums) {
-        int n = nums.length;
-        List<List<Integer>> res = new ArrayList<>();
         Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<>();
 
-        func(0,new ArrayList<>(),res,nums);
+        func(0,nums,ans,new ArrayList<>());
 
-        return res;     
+        return ans;
     }
 
-    public void func(int ind,List<Integer> ds,List<List<Integer>> res,int[] nums) {
-        res.add(new ArrayList<>(ds));
+    public void func(int ind,int[] nums,List<List<Integer>> ans,List<Integer> list) {
+        ans.add(new ArrayList<>(list));
 
         for(int i = ind ; i < nums.length ; i++){
-            if(i>ind && nums[i]==nums[i-1])continue; //if duplicate continue
+            if(i>ind && nums[i] == nums[i-1])continue;
 
-            //take
-            ds.add(nums[i]);
-            func(i+1,ds,res,nums);
-            ds.remove(ds.size()-1);
+            list.add(nums[i]);
+            func(i+1,nums,ans,list);
+            list.remove(list.size()-1);
         }
     }
 }
