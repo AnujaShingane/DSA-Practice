@@ -1,29 +1,27 @@
 class Solution {
     public List<List<Integer>> permute(int[] nums) {
-        int n = nums.length;
-        List<List<Integer>> res = new ArrayList<>();
-        boolean[] freq = new boolean[n];
+        List<List<Integer>> ans = new ArrayList<>();
+        boolean[] used = new boolean[nums.length];
 
-        func(0,new ArrayList<>(),res,freq,nums);
+        func(nums,ans,used,new ArrayList<>());
 
-        return res;
+        return ans;
     }
 
-    public void func(int ind,List<Integer> ds,List<List<Integer>> res,boolean[] freq,int[] nums) {
-        if(ind==nums.length){
-            res.add(new ArrayList<>(ds));
+    public void func(int[] nums,List<List<Integer>> ans,boolean[] used,List<Integer> list) {
+        if(list.size()==nums.length){
+            ans.add(new ArrayList<>(list));
             return;
         }
 
         for(int i = 0 ; i < nums.length ; i++){
-            int num = nums[i];
-            if(!freq[i]){
-                ds.add(num);
-                freq[i]=true;
-                func(ind+1,ds,res,freq,nums);
-                ds.remove(ds.size()-1);
-                freq[i] = false;
-            }
+            if(used[i])continue;
+
+            used[i] = true;
+            list.add(nums[i]);
+            func(nums,ans,used,list);
+            list.remove(list.size()-1);
+            used[i] = false;
         }
     }
 }
