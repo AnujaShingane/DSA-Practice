@@ -7,21 +7,24 @@ class Solution {
         }
 
         int ans = func(n-1,amount,coins,dp);
-        return ans >= (int)(1e9) ? -1 : ans;
+        
+        return (ans == (int)(1e9)) ? -1 : ans;
     }
 
-    public int func(int ind,int amount,int[] coins,int[][] dp) {
+    static int func(int ind,int target,int[] arr,int[][] dp) {
         if(ind==0){
-            if(amount%coins[0]==0)return amount/coins[0];
-            return (int)(1e9);
+            if(target%arr[0]==0){
+                return target/arr[0];
+            }else return (int)(1e9);
         }
-        if(dp[ind][amount]!=-1)return dp[ind][amount];
+
+        if(dp[ind][target]!=-1)return dp[ind][target];
 
         int take = (int)(1e9);
-        if(amount>=coins[ind]) take = 1 + func(ind,amount-coins[ind],coins,dp);
+        if(target>=arr[ind]) take = 1 + func(ind,target-arr[ind],arr,dp);
 
-        int nottake = func(ind-1,amount,coins,dp);
+        int nottake = func(ind-1,target,arr,dp);
 
-        return dp[ind][amount] = Math.min(take,nottake);
+        return dp[ind][target] = Math.min(take,nottake);
     }
 }
