@@ -1,38 +1,29 @@
 class Solution {
-
     public int countCompleteSubarrays(int[] nums) {
+        int n = nums.length;
+        HashSet<Integer> set = new HashSet<>();
+        for(int num : nums)set.add(num);
+        int size = set.size();
 
-        HashMap<Integer, Integer> all = new HashMap<>();
+        HashMap<Integer,Integer> map = new HashMap<>();
 
-        for (int num : nums) {
-            all.put(num, all.getOrDefault(num, 0) + 1);
-        }
+        int l = 0;
+        int r = 0;
+        int ans = 0;
 
-        int size = all.size();
+        while(r<n){
+            map.put(nums[r],map.getOrDefault(nums[r],0)+1);
+            while(map.size()==size){
+                ans += n-r;
 
-        return func(0, nums, size);
-    }
-
-    public int func(int start, int[] nums, int size) {
-
-        if (start == nums.length)
-            return 0;
-
-        HashMap<Integer, Integer> map = new HashMap<>();
-
-        int cnt = 0;
-
-        // Find complete subarrays starting at 'start'
-        for (int i = start; i < nums.length; i++) {
-
-            map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
-
-            if (map.size() == size) {
-                cnt++;
+                map.put(nums[l],map.get(nums[l])-1);
+                if(map.get(nums[l])==0)map.remove(nums[l]);
+                l++;
             }
+
+            r++;
         }
 
-        // Now process the next starting position
-        return cnt + func(start + 1, nums, size);
+        return ans;
     }
 }
