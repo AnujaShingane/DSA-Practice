@@ -1,12 +1,12 @@
 class Pair{
     int i;
     int j;
-    int dist;
+    int dis;
 
-    Pair(int i , int j , int dist){
+    Pair(int i , int j , int dis){
         this.i = i;
         this.j = j;
-        this.dist = dist;
+        this.dis = dis;
     }
 }
 
@@ -14,14 +14,19 @@ class Solution {
     public int[][] updateMatrix(int[][] mat) {
         int n = mat.length;
         int m = mat[0].length;
+
+        int[][] ans = new int[n][m];
+        for(int[] arr : ans){
+            Arrays.fill(arr,0);
+        }
+
         Queue<Pair> q = new LinkedList<>();
         boolean[][] vis = new boolean[n][m];
 
         for(int i = 0 ; i < n ; i++){
             for(int j = 0 ; j < m ; j++){
-                if(mat[i][j] == 0){
-                    q.add(new Pair(i,j,0));
-                    vis[i][j] = true;
+                if(mat[i][j]==0){
+                    q.offer(new Pair(i,j,0));
                 }
             }
         }
@@ -31,22 +36,23 @@ class Solution {
 
         while(!q.isEmpty()){
             Pair p = q.poll();
-            int i = p.i;
-            int j = p.j;
-            int dis = p.dist;
+            int r = p.i;
+            int c = p.j;
+            int dist = p.dis;
 
-            for(int k = 0 ; k < 4 ; k++){
-                int nr = i+dr[k];
-                int nc = j+dc[k];
+            for(int z = 0 ; z < 4 ; z++){
+                int nr = r + dr[z];
+                int nc = c + dc[z];
+                int ndis = dist + 1;
 
                 if(nr<0 || nr>=n || nc<0 || nc>=m || vis[nr][nc] || mat[nr][nc]!=1)continue;
 
                 vis[nr][nc] = true;
-                mat[nr][nc] = dis+1;
-                q.add(new Pair(nr,nc,dis+1));
+                ans[nr][nc] = ndis;
+                q.offer(new Pair(nr,nc,ndis));
             }
         }
 
-        return mat;
+        return ans;
     }
 }
