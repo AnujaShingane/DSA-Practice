@@ -1,53 +1,58 @@
-class Pair{
-    int node;
-    int wt;
-    
-    Pair(int node,int wt){
-        this.node = node;
-        this.wt = wt;
+class DisjointSet {
+    int[] size;
+    int[] parent;
+
+    public DisjointSet(int n) {
+        size = new int[n];
+        parent = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            size[i] = 1;
+            parent[i] = i;
+        }
+    }
+
+    public int findUPar(int node) {
+
+        if (node == parent[node]) {
+            return node;
+        }
+
+        return parent[node] = findUPar(parent[node]);
+    }
+
+    public void unionBySize(int u, int v) {
+
+        int ulp_u = findUPar(u);
+        int ulp_v = findUPar(v);
+
+        if (ulp_u == ulp_v) {
+            return;
+        }
+        
+        if (size[ulp_u] < size[ulp_v]) {
+            parent[ulp_u] = ulp_v;
+            size[ulp_v] = size[ulp_v] + size[ulp_u];
+        } else {
+            parent[ulp_v] = ulp_u;
+            size[ulp_u] = size[ulp_u] + size[ulp_v];
+        }
     }
 }
 
 class Solution {
     public int spanningTree(int V, int[][] edges) {
-        PriorityQueue<Pair> pq = new PriorityQueue<>(
-            (a,b) -> a.wt - b.wt    
-        );
-        boolean[] vis = new boolean[V];
-        int sum = 0;
+        Arrays.sort(edges,(a,b)->a[2]-b[2]);
+        DisjointSet ds = new DisjointSet(V);
+        int cnt = 0;
         
-        pq.add(new Pair(0,-1));
-        
-        ArrayList<ArrayList<Pair>> adj = adjList(V,edges);
-        
-        while(!pq.isEmpty()){
-            Pair p = pq.poll();
-            int node = p.node;
-            int wt = p.wt;
-            
-            if(vis[node])continue;
-            vis[node]=true;
-            if(wt!=-1)sum += wt;
-            
-            for(Pair p1 : adj.get(node)){
-                pq.add(new Pair(p1.node,p1.wt));
+        for(int[] edge : edges){
+            if(ds.findUPar(edge[0])!=ds.findUPar(edge[1])){
+                ds.unionBySize(edge[0],edge[1]);
+                cnt+=edge[2];
             }
         }
         
-        return sum;
-    }
-    
-    public ArrayList<ArrayList<Pair>> adjList(int V , int[][] edges){
-        ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
-        for(int i = 0 ; i < V ; i++){
-            adj.add(new ArrayList<>());
-        }
-        
-        for(int[] edge : edges){
-            adj.get(edge[0]).add(new Pair(edge[1],edge[2]));
-            adj.get(edge[1]).add(new Pair(edge[0],edge[2]));
-        }
-        
-        return adj;
+        return cnt;
     }
 }
