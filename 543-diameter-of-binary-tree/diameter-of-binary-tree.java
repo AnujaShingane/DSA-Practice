@@ -20,17 +20,16 @@ class Solution {
         return ans;
     }
 
-    public int solve(TreeNode root){
-        if(root==null){
+    public int solve(TreeNode node){
+        if(node == null){
             return 0;
         }
 
-        int l = solve(root.left);
-        int r = solve(root.right);
+        int l = solve(node.left);
+        int r = solve(node.right);
 
-        int temp = Math.max(l,r) + 1;
-        ans = Math.max(ans, l+r);
+        ans = Math.max(ans,l+r);
 
-        return temp;
+        return 1 + Math.max(l,r);
     }
 }
