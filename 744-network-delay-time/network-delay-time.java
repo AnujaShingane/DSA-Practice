@@ -1,68 +1,56 @@
+class Pair{
+    int node;
+    int wt;
+    
+    Pair(int node, int wt){
+        this.node = node;
+        this.wt = wt;
+    }
+}
+
 class Solution {
     public int networkDelayTime(int[][] times, int n, int k) {
-        ArrayList<ArrayList<Pair>> adj = adjList(n,times);
-        int[] arr = dijkstra(n,adj,k);
-        int max = Integer.MIN_VALUE;
-        
-        for(int i = 1; i <= n ; i++){
-            max = Math.max(arr[i],max);
-        }
+        int[] dist = new int[n+1];
+        List<List<Pair>> adj = adjList(times,n ,k);
+        Arrays.fill(dist,Integer.MAX_VALUE);
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)->a.wt-b.wt);
+        pq.add(new Pair(k,0));
+        dist[k] = 0;
 
-        if(max==Integer.MIN_VALUE || max == Integer.MAX_VALUE){
-            return -1;
-        }
+        while(!pq.isEmpty()){
+            Pair p = pq.poll();
+            int node = p.node;
+            int wt = p.wt;
 
-        return max;
-    }
+            if(wt>dist[node])continue;
 
-    class Pair {
-        int node, dist;
-        Pair(int n, int d) {
-            node = n;
-            dist = d;
-        }
-    }
+            for(Pair nei : adj.get(node)){
+                int no = nei.node;
+                int w = nei.wt;
+                int nwt = w + wt;
 
-    public int[] dijkstra(int n1, ArrayList<ArrayList<Pair>> adj, int src) {
-        int[] dist = new int[n1+1];
-        Arrays.fill(dist, Integer.MAX_VALUE);
-        dist[src] = 0;
-
-        PriorityQueue<Pair> pq = new PriorityQueue<>((a, b) -> a.dist - b.dist);
-        pq.offer(new Pair(src, 0));
-
-        while (!pq.isEmpty()) {
-            Pair curr = pq.poll();
-            int node = curr.node;
-            int d = curr.dist;
-
-            if(d>dist[node])continue;
-
-            //relaxation of edges
-            for (Pair nei : adj.get(node)) {
-                int n = nei.node;
-                int dis = nei.dist;
-                int newDist = dis+d;
-
-                if(dist[node]+dis<dist[n]){
-                    dist[n] = dist[node]+dis;
-                    pq.offer(new Pair(n,dist[n]));
+                if(nwt<dist[no]){
+                    dist[no] = nwt;
+                    pq.offer(new Pair(no,nwt));
                 }
             }
         }
-        return dist;
+
+        int max = 0;
+        for(int i = 1 ; i <= n ; i++){
+            max = Math.max(max,dist[i]);
+        }
+
+        return max==Integer.MAX_VALUE ? -1 : max;
     }
 
-
-    public ArrayList<ArrayList<Pair>> adjList(int n, int[][] times) {
-
-        ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
-
-        for (int i = 0; i <= n; i++) {
+    public List<List<Pair>> adjList(int[][] times , int n , int k){
+        List<List<Pair>> adj = new ArrayList<>();
+        for(int i = 0 ; i <= n ; i++){
             adj.add(new ArrayList<>());
         }
 
-        for (int[] arr : times) {
+        for(int[] arr : times){
             adj.get(arr[0]).add(new Pair(arr[1],arr[2]));
         }
 
