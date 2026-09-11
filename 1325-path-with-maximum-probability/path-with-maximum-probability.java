@@ -1,59 +1,56 @@
 class Pair{
     int node;
-    Double prob;
-
-    Pair(int node,double prob){
-        this.node=node;
-        this.prob=prob;
+    double wt;
+    
+    Pair(int node, double wt){
+        this.node = node;
+        this.wt = wt;
     }
 }
 
 class Solution {
     public double maxProbability(int n, int[][] edges, double[] succProb, int start_node, int end_node) {
-        ArrayList<ArrayList<Pair>> adj = adjList(n,edges,succProb);
-        PriorityQueue<Pair> pq = new PriorityQueue<>(
-            (a,b) -> Double.compare(b.prob,a.prob)
-        );
-        boolean[] vis = new boolean[n];
-        double[] prob = new double[n];
-        Arrays.fill(prob,0.0);
-        pq.add(new Pair(start_node,1.0));
-        vis[start_node]=true;
+        double[] dist = new double[n];
+        List<List<Pair>> adj = adjList( n,  edges,  succProb,  start_node, end_node);
+        Arrays.fill(dist,Integer.MIN_VALUE);
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)->Double.compare(b.wt,a.wt));
+        pq.add(new Pair(start_node,1));
+        dist[start_node] = 1;
 
         while(!pq.isEmpty()){
             Pair p = pq.poll();
-            int curr = p.node;
-            double pro = p.prob;
+            int node = p.node;
+            double wt = p.wt;
 
-            vis[curr]=true;
-            if(curr==end_node)return pro;
+            if(wt<dist[node])continue;
 
-            for(Pair pp : adj.get(curr)){
-                int ele = pp.node;
-                double probab = pp.prob;
+            for(Pair nei : adj.get(node)){
+                int no = nei.node;
+                double w = nei.wt;
+                double nwt = w * wt;
 
-                double np = pro*probab;
-
-                if(vis[ele])continue;
-
-                if(prob[ele]<np){
-                    prob[ele]=np;
-                    pq.add(new Pair(ele,np));
+                if(nwt>dist[no]){
+                    dist[no] = nwt;
+                    pq.offer(new Pair(no,nwt));
                 }
             }
         }
 
-        return 0.0;
+        return dist[end_node]==Integer.MIN_VALUE ? 0 : dist[end_node];
     }
 
-    public ArrayList<ArrayList<Pair>> adjList(int n,int[][] edges,double[] succProb) {
-        ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
+    public List<List<Pair>> adjList(int n, int[][] edges, double[] succProb, int start_node, int end_node){
+        List<List<Pair>> adj = new ArrayList<>();
         for(int i = 0 ; i < n ; i++){
             adj.add(new ArrayList<>());
         }
-        for(int j = 0 ; j < edges.length ; j++){
-            adj.get(edges[j][0]).add(new Pair(edges[j][1],succProb[j]));
-            adj.get(edges[j][1]).add(new Pair(edges[j][0],succProb[j]));
+
+        int ptr = 0;
+        for(int[] arr : edges){
+            adj.get(arr[0]).add(new Pair(arr[1],succProb[ptr]));
+            adj.get(arr[1]).add(new Pair(arr[0],succProb[ptr]));
+
+            ptr++;
         }
 
         return adj;
